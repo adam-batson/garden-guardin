@@ -1,0 +1,24 @@
+{
+  "name": "garden-guarding",
+  "version": "1.0.0",
+  "description": "Garden Guarding - HTML5 game made with Phaser for MLIP Capstone",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html -p 8000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tabatson/garden-guarding.git"
+  },
+  "author": "Adam Batson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tabatson/garden-guarding/issues"
+  },
+  "homepage": "https://github.com/tabatson/garden-guarding#readme",
+  "dependencies": {
+    "parcel": "^2.0.1",
+    "phaser": "^3.55.2"
+  }
+}

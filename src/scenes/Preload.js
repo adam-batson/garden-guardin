@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import garden from '../assets/images/garden.png';
-import 
+//import 
 
 export default class Preload extends Phaser.Scene
 {
