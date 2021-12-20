@@ -1,11 +1,9 @@
 import Phaser from 'phaser';
-import images from '../assets/images/garden.png';
 
 export default class LevelOne extends Phaser.Scene
 {
     preload()
     {
-        this.load.image('garden', images)
     }
     create()
     {
