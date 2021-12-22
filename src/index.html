@@ -2,7 +2,16 @@
 <html lang="en">
     <head>
         <title>Garden Guarding</title>
-        <!-- <link rel="preload" as="font" href="../assets/fonts/PressStart2P/PressStart2P-Regular.ttf" type="font/ttf" /> -->
+        <!--
+            This style will change the game's font.
+            The font will be used throughout the game.
+        -->
+        <style> 
+            @font-face {
+                font-family: 'game-font';
+                src: url('./assets/fonts/PressStart2P/PressStart2P-Regular.ttf') format('truetype');
+            }
+        </style>
     </head>
     <body>
         <script type="module" src="./main.js"></script>
