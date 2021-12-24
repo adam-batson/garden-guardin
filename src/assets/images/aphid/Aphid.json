@@ -40,10 +40,7 @@
   "size": { "w": 114, "h": 89 },
   "scale": "1",
   "frameTags": [
-   { "name": "Resting", "from": 0, "to": 0, "direction": "forward" },
-   { "name": "LeftStep", "from": 1, "to": 1, "direction": "forward" },
-   { "name": "MidStep", "from": 2, "to": 2, "direction": "forward" },
-   { "name": "RightStep", "from": 3, "to": 3, "direction": "forward" }
+      { "name": "Walking", "from": 0, "to": 3, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
