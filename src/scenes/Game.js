@@ -17,9 +17,11 @@ export default class Game extends Phaser.Scene
     }
     create()
     {
-        this.add.image(400, 400, 'garden');
+        this.add.image(400, 400, 'garden')
+            .setDepth(0);
         this.player = this.add.sprite(400, 400, 'player')
-            .setOrigin(0.5, 0.5);
+            .setOrigin(0.5, 0.5)
+            .setDepth(10);
 
         //Add sounds
         const swingSound = this.sound.add('swing');
@@ -73,6 +75,14 @@ export default class Game extends Phaser.Scene
         this.player.y = this.input.activePointer.worldY;
     }
 
+    enemyMove()
+    {
+        aphidTween = this.tweens.add({
+            targets: this.aphidGroup.getChildren(),
+            
+        });
+    }
+
     aphidSpawn() {
         var num;
         var active = this.aphidGroup.countActive();
@@ -95,31 +105,26 @@ export default class Game extends Phaser.Scene
         {
             for(let i = 0; i <= (num / 2); i++)
             {
-                let x = this.randomSpawnX();
-                let y = this.randomSpawnY();
+                let x = Phaser.Math.RND.between(0, 1) * 800;
+                let y = this.randomCoordinate();
                 
-                let aphid = this.add.sprite(x, y, 'aphid');
-                this.aphidGroup.add(aphid, true);
-                aphid.play('Walking', true);
-                    
-                    console.log('Aphid #', i)
-                    console.log('x: ', aphid.x)
-                    console.log('y: ', aphid.y)
-                
+                let aphid = this.add.sprite(x, y, 'aphid')
+                    .setOrigin(0.5, 0.5)
+                    .setDepth(1)
+                    .play({
+                        key: 'Walking',
+                        repeat: -1
+                     });
+                aphid.enemyMove();
+
+                this.aphidGroup.add(aphid, true);                                   
             }
         }
             
     }
 
-    randomSpawnX() // Chooses which side to spawn on randomly between left and right edges.
+    randomCoordinate() // Chooses which height to spawn at, could emerge from offscreen top or bottom as well.
     {
-        console.log('Rand x: ', Phaser.Math.RND.between(0, 1) * 800)
-        return Phaser.Math.RND.between(0, 1) * 800;
-    }
-
-    randomSpawnY() // Chooses which height to spawn at, could emerge from offscreen top or bottom as well.
-    {
-        console.log('Rand y: ', Phaser.Math.RND.between(-32, 832))
         return Phaser.Math.RND.between(-32, 832);
     }
 
