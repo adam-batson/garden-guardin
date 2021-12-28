@@ -26,28 +26,29 @@ export default class Game extends Phaser.Scene
             }
         }); 
     }
+
     preload()
     {
         // The player sprite will follow the mouse cursor.
         // This removes the arrow from the cursor.
         this.sys.canvas.style.cursor = 'none';
     }
+
     create()
     {
         // Add boundaries to the world.
         this.physics.world.setBounds(0, 0, 800, 800);
 
-        // Add timer to trigger spawns
-        //this.time.
         // Add background.
         this.add.image(400, 400, 'garden')
             .setDepth(0);
 
-        // Add player sprite.
+        // Add player sprite and physics.
         this.player = this.add.sprite(400, 400, 'player')
             .setOrigin(0.5, 0.5)
             .setDepth(10);
-
+        this.physics.add.existing(this.player);
+        
         //Add sounds
         this.swingSound = this.sound.add('swing');
 
@@ -65,11 +66,21 @@ export default class Game extends Phaser.Scene
         this.cameras.main.fadeIn(500, 0, 0, 0);        
 
         // Initial enemy spawn.
-        this.spawnEnemies();
+        //this.spawnEnemies();
         this.spawnTimer();
 
         // Animation handling
         this.moveTimer();
+        this.aphidGroup.playAnimation({
+            key: 'Walking',
+            repeat: -1})
+
+        // Sprite test
+        // var sp = this.add.sprite(400, 400, 'aphid').play({
+        //     key: 'Walking', 
+        //     repeat: -1,
+        //     ignoreIfPlaying: true})
+        //     .setScale(2, 2)
     }
 
     update()
@@ -141,26 +152,25 @@ export default class Game extends Phaser.Scene
     aphidMove(aphid)
     {
         // Gets random coordinates
-        //do{
-            var x = this.randomCoordinate(); //aphid.x + (50 * this.randomPosOrNeg);
-        //} while(x < 0 || x > 800);
-        //do {
-            var y = this.randomCoordinate(); //aphid.y + (50 * this.randomPosOrNeg);
-      //  } while(y < 0 || y > 800)
+        do {
+            var x = aphid.x + (100 * this.randomPosOrNeg());
+        } while(x < 0 || x > 800);
+        do {
+            var y = aphid.y + (10 * this.randomPosOrNeg());
+        } while(y < 0 || y > 800);
+        console.log(aphid.x + ', ' + aphid.y)
 
+        console.log(x + ', ' + y)
         this.tweens.add({
             targets: aphid,
             x: x,
             y: y,
-            duration: 3000,
-            delay: 500,
-            ease: 'Power1',
+            duration: 1000,
+            delay: Phaser.Math.RND.between(100, 500),
+            ease: 'SineOut',
         });
-        // var distance = Phaser.Math.Distance.Between(aphid.x, aphid.y, x, y);
-        // var angle = Phaser.Math.Angle.Between(aphid.x, aphid.y, x, y);
         
         var rotateTo = new RotateTo(aphid);
-        // var moveTo = new MoveTo(aphid);
 
         rotateTo.rotateTowardsPosition(x, y, 0, 500)
         // moveTo.moveToward(angle, distance * 2)
@@ -176,7 +186,12 @@ export default class Game extends Phaser.Scene
         aphid.setName('aphid' + this.aphidGroup.getLength())
             .setDepth(1)
             .setOrigin(0.5, 0.5)
-            .setScale(0.6, 0.6);
+            .setScale(0.6, 0.6)
+            .play({
+                key: 'Walking',
+                repeat: -1,
+                ignoreIfPlaying: true
+            });
         this.physics.add.existing(aphid);
         aphid.body.setCollideWorldBounds(true, 1, 1);
         this.physics.add.collider(aphid, this.player);
