@@ -40,23 +40,23 @@
 - ### [Itch.io](https://itch.io/)
   - Itch.io is hosting this game. You can follow the provided instructions to run this locally or just head over to Itch and play it!
 - ### [Aseprite](https://www.aseprite.org/)
+
   - Aseprite was used to create sprites for this game.
 
   <br>
 
 # **Schedule**
 
-|  Date   |     |          To Be Completed           |
-| :-----: | --- | :----------------------------------------------: |
+|  Date   |     |            To Be Completed             |
+| :-----: | --- | :------------------------------------: |
 | Dec. 13 |     |       Learn Phaser basics (DONE)       |
-|         |     |    Find hosting options (DONE)     |
-| Dec. 15 |     |  Demo assets ready (IN PROGRESS)   |
-|         |     |        Game planned (DONE)         |
-|         |     |        Level design started (DONE)       |
-| Dec. 22 |     |       Level design completed (DONE)      |
-|         |     |    Character controls completed (IN PROGRESS)   |
-|         |     |        Begin enemy controls (IN PROGRESS)        |
-| Dec. 29 |     |      Enemy controls completed      |
-|         |     |         Final assets ready         |
-|         |     |             Host game              |
-
+|         |     |      Find hosting options (DONE)       |
+| Dec. 15 |     |        Demo assets ready (DONE)        |
+|         |     |          Game planned (DONE)           |
+|         |     |      Level design started (DONE)       |
+| Dec. 22 |     |     Level design completed (DONE)      |
+|         |     |  Character controls completed (DONE)   |
+|         |     |      Begin enemy controls (DONE)       |
+| Dec. 29 |     | Enemy controls completed (IN PROGRESS) |
+|         |     |    Final assets ready (IN PROGRESS)    |
+|         |     |        Host game (IN PROGRESS)         |

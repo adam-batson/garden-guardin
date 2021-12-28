@@ -1,4 +1,5 @@
 # **Garden Guardin'**
+
 ### **Microsoft Leap Capstone Project**
 
 ## **Developer:** Adam Batson [GitHub](https://github.com/tabatson) | [LinkedIn](https://linkedin.com/in/t-a-batson)
@@ -14,6 +15,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Currently, the game has one level, four enemies, and a boss. In the future, I want to create more levels with a wider variety of enemies and new bosses. I also want to implement environmental effects or obstacles.
 
 ### **How to Play**
+
 &nbsp;&nbsp;&nbsp;&nbsp;In _Garden Guardin'_, you are a gardener trying to drive off pests in the garden. This game is very heavily inspired by Gnat Attack from Mario Paint.
 
 &nbsp;&nbsp;&nbsp;&nbsp;Click on the pests to whack them with your spade. Pests come in waves, and some do not do any harm to you, while others do. You can only take 3 hits so avoid projectiles!
@@ -24,15 +26,11 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;If you want to play this game and you don't need the code, **I recommend doing that [here]().** <br>
 
-&nbsp;&nbsp;&nbsp;&nbsp;To install and run this game, you'll need node.js and npm installed. After that, clone the repo, then run:
-```
- npm install phaser
- npm install parcel
-```
-&nbsp;&nbsp;&nbsp;&nbsp;To run the game run npm start and go to localhost:8000 on your browser.
+&nbsp;&nbsp;&nbsp;&nbsp;To install and run this game, you'll need node.js and npm installed. After that, clone the repo, then run npm install in your terminal. Then to run the game, run npm start in the terminal and go to localhost:8000 on your browser.
 
 # **License**
-_Garden Guardin'_ uses MIT License. See license [here](https://github.com/tabatson/garden-guardin/blob/main/LICENSE).
+
+_Garden Guardin'_ and art assets use MIT License. See license [here](https://github.com/tabatson/garden-guardin/blob/main/LICENSE).
 
 Press Start 2P uses SIL Open Font License. See license [here](https://github.com/tabatson/garden-guardin/blob/main/src/assets/fonts/PressStart2P/LICENSE).
 

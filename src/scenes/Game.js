@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import RotateTo from 'phaser3-rex-plugins/plugins/rotateto';
-import Clock from 'phaser3-rex-plugins/plugins/clock.js';
-import MoveTo from 'phaser3-rex-plugins/plugins/moveto.js';
+import MoveTo from 'phaser3-rex-plugins/plugins/moveto';
 
 export default class Game extends Phaser.Scene
 {
@@ -10,12 +9,10 @@ export default class Game extends Phaser.Scene
         this.pestsLeft = 100;
         this.lives = 3;
         this.initPlayer();
-        this.clock = new Clock(this);
         
         // Wave and spawn control variables
         this.wave = 1;
         this.activeEnemies = 0;
-        this.spawnTimer = 0;
         this.aphidsThisWave = 0;
         this.aphidsSpawned = 0;
 
@@ -25,6 +22,7 @@ export default class Game extends Phaser.Scene
             maxSize: 10,
             createCallback: (aphid) => {
                 this.createAphid(aphid);
+                this.aphidMove(aphid);
             }
         }); 
     }
@@ -39,6 +37,8 @@ export default class Game extends Phaser.Scene
         // Add boundaries to the world.
         this.physics.world.setBounds(0, 0, 800, 800);
 
+        // Add timer to trigger spawns
+        //this.time.
         // Add background.
         this.add.image(400, 400, 'garden')
             .setDepth(0);
@@ -62,17 +62,43 @@ export default class Game extends Phaser.Scene
              .setDepth(20);
 
         // Fades in to allow player to begin.
-        this.cameras.main.fadeIn(500, 0, 0, 0);
-        
+        this.cameras.main.fadeIn(500, 0, 0, 0);        
+
+        // Initial enemy spawn.
+        this.spawnEnemies();
+        this.spawnTimer();
+
+        // Animation handling
+        this.moveTimer();
     }
 
     update()
     {
-        this.spawnTimer++;
-
         this.playerMove();
         this.initWaves();
-       // this.spawnEnemies();
+    }
+
+    spawnTimer()
+    {
+        // Allows repeating events such as spawns and movement changes.
+        var timer = this.time.addEvent({
+            delay: 2500,
+            callback: () => {
+                this.spawnEnemies();
+            },
+            loop: true
+        });
+    }
+
+    moveTimer()
+    {
+        var timer = this.time.addEvent({
+            delay: 5000,
+            callback: () => {
+                this.aphidGroup.children.each((child) => this.aphidMove(child), this);
+            },
+            loop: true
+        });
     }
 
     initPlayer()
@@ -105,10 +131,8 @@ export default class Game extends Phaser.Scene
         // Allows clicking to change the animation.
         // Animation resets when not clicking.
         this.input.once('pointerdown', () => { 
-            var timer = this.spawnTimer;
             this.player.play('Attacking', true);
             this.swingSound.play();
-            this.player.stopAfterDelay(500);
             });
         this.input.on('pointerup', () => { 
             this.player.play('Resting', false)});
@@ -117,45 +141,60 @@ export default class Game extends Phaser.Scene
     aphidMove(aphid)
     {
         // Gets random coordinates
-        var x = this.randomCoordinate();
-        var y = this.randomCoordinate();
+        //do{
+            var x = this.randomCoordinate(); //aphid.x + (50 * this.randomPosOrNeg);
+        //} while(x < 0 || x > 800);
+        //do {
+            var y = this.randomCoordinate(); //aphid.y + (50 * this.randomPosOrNeg);
+      //  } while(y < 0 || y > 800)
 
+        this.tweens.add({
+            targets: aphid,
+            x: x,
+            y: y,
+            duration: 3000,
+            delay: 500,
+            ease: 'Power1',
+        });
+        // var distance = Phaser.Math.Distance.Between(aphid.x, aphid.y, x, y);
+        // var angle = Phaser.Math.Angle.Between(aphid.x, aphid.y, x, y);
+        
         var rotateTo = new RotateTo(aphid);
-        var moveTo = new MoveTo(aphid);
+        // var moveTo = new MoveTo(aphid);
 
-        rotateTo.rotateTowardsPosition(x, y, 0, 90);
-        moveTo.setSpeed(50);
-        moveTo.moveTo(x, y);        
+        rotateTo.rotateTowardsPosition(x, y, 0, 500)
+        // moveTo.moveToward(angle, distance * 2)
+        //     .setSpeed(90);
+
     }
 
     createAphid(aphid)
     {
-        var x = Phaser.Math.RND.between(0, 1) * 800;
-        var y = this.randomCoordinate();
+        aphid.x = Phaser.Math.RND.between(0, 1) * 800;
+        aphid.y = this.randomCoordinate();
 
-        aphid.x = x
-            .y = y
-            .setName('aphid' + this.aphidGroup.getLength())
+        aphid.setName('aphid' + this.aphidGroup.getLength())
             .setDepth(1)
             .setOrigin(0.5, 0.5)
-            .setScale(0.75, 0.75);
+            .setScale(0.6, 0.6);
         this.physics.add.existing(aphid);
         aphid.body.setCollideWorldBounds(true, 1, 1);
-        this.aphidMove(aphid);
-        //this.physics.add.collider(aphid, this.player)
+        this.physics.add.collider(aphid, this.player);
     }
 
     spawnEnemies()
     {
-        for(var i = this.aphidsSpawned; i <= this.aphidsThisWave; i++)
+        if(this.aphidsSpawned < this.aphidsThisWave)
         {
-            if(this.spawnTimer % 10 === 0)
-            {
-                //this.createAphid();
-                this.aphidsSpawned++;
-                this.activeEnemies++;
-            }   
+            this.aphidGroup.create();
+            this.aphidsSpawned++;
+            this.activeEnemies++; 
         }
+    }
+
+    randomPosOrNeg()
+    {
+        return Phaser.Math.RND.between(-1, 1);
     }
 
     randomCoordinate() // Sets X or Y coordinate for use in spawning and movement of enemies.

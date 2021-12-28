@@ -5,11 +5,11 @@ import garden from '../assets/images/garden.png';
 
 // Spade player sprites
 import spade from '../assets/images/spade/Spade.png';
-import spadeSprite from '../assets/images/spade/Spade.json';
+import spadeAnims from '../assets/images/spade/Spade.json';
 
 // Aphid enemy sprites
 import aphid from '../assets/images/aphid/Aphid.png';
-import aphidSprite from '../assets/images/aphid/Aphid.json';
+import aphidAnims from '../assets/images/aphid/Aphid.json';
 
 // Parcel requires audio to be imported this way
 const bgmUrl = new URL('../assets/sounds/Still-Pickin.mp3', import.meta.url);
@@ -22,8 +22,8 @@ export default class Preload extends Phaser.Scene
     preload()
     {     
         this.load.image('garden', garden);
-        this.load.aseprite('player', spade, spadeSprite);
-        this.load.aseprite('aphid', aphid, aphidSprite);
+        this.load.aseprite('player', spade, spadeAnims);
+        this.load.aseprite('aphid', aphid, aphidAnims);
         this.load.audio('bgm', `${bgmUrl}`);
         this.load.audio('boss-theme', `${bossUrl}`);
         this.load.audio('hit-sound', `${hitUrl}`);
