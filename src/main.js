@@ -3,8 +3,7 @@ import Game from './scenes/Game';
 import Preload from './scenes/Preload';
 import TitleScreen from './scenes/TitleScreen';
 
-// Plugins
-import RotateToPlugin from 'phaser3-rex-plugins/plugins/rotateto-plugin.js';
+// Plugins.
 
 const config = {
     type: Phaser.AUTO,
@@ -19,19 +18,7 @@ const config = {
         arcade: {
             debug: true,
             gravity: { y: 0 }
-        },
-        // plugins: {
-        //     global: [{
-        //         key: 'rexRotateTo',
-        //         plugin: RotateToPlugin,
-        //         start: true
-        //     },
-        //     {
-        //         key: 'rexClock',
-        //         plugin: ClockPlugin,
-        //         start: true
-        //     }]
-        // }
+        }
     }
 };
 

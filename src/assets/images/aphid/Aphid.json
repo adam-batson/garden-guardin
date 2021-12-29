@@ -1,33 +1,33 @@
 { "frames": {
    "0": {
-    "frame": { "x": 1, "y": 47, "w": 56, "h": 42 },
+    "frame": { "x": 1, "y": 49, "w": 58, "h": 44 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 12, "w": 54, "h": 40 },
+    "spriteSourceSize": { "x": 5, "y": 11, "w": 56, "h": 42 },
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    },
    "1": {
-    "frame": { "x": 1, "y": 1, "w": 56, "h": 45 },
+    "frame": { "x": 1, "y": 1, "w": 58, "h": 47 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 9, "w": 54, "h": 43 },
+    "spriteSourceSize": { "x": 5, "y": 8, "w": 56, "h": 45 },
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    },
    "2": {
-    "frame": { "x": 58, "y": 47, "w": 56, "h": 42 },
+    "frame": { "x": 1, "y": 49, "w": 58, "h": 44 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 12, "w": 54, "h": 40 },
+    "spriteSourceSize": { "x": 5, "y": 11, "w": 56, "h": 42 },
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    },
    "3": {
-    "frame": { "x": 58, "y": 1, "w": 56, "h": 45 },
+    "frame": { "x": 60, "y": 1, "w": 58, "h": 47 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 12, "w": 54, "h": 43 },
+    "spriteSourceSize": { "x": 5, "y": 11, "w": 56, "h": 45 },
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    }
@@ -37,10 +37,10 @@
   "version": "1.2.30-x64",
   "image": "Aphid.png",
   "format": "RGBA8888",
-  "size": { "w": 114, "h": 89 },
+  "size": { "w": 118, "h": 93 },
   "scale": "1",
   "frameTags": [
-      { "name": "Walking", "from": 0, "to": 3, "direction": "forward" }
+   { "name": "Walking", "from": 0, "to": 3, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }

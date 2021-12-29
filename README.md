@@ -36,7 +36,7 @@ Press Start 2P uses SIL Open Font License. See license [here](https://github.com
 
 Phaser 3 uses MIT License. See license [here](https://phaser.io/download/license).
 
-**Music Attribution**: <br>
+**Audio Attribution**: <br>
 Music uses [this](https://incompetech.filmmusic.io/standard-license) license. The license requires attribution in the exact format below.
 
 Still Pickin by Kevin MacLeod <br>
@@ -46,3 +46,7 @@ License: https://filmmusic.io/standard-license
 Corncob by Kevin MacLeod <br>
 Link: https://incompetech.filmmusic.io/song/3554-corncob <br>
 License: https://filmmusic.io/standard-license
+
+bee.wav by IMadeIt, licensed CC-BY 3.0, source at https://opengameart.org/content/single-bee-sound.<br>
+No changes were made.<br>
+CC-BY 3.0 license details [here](https://creativecommons.org/licenses/by/3.0/legalcode).
