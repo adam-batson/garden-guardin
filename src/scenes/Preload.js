@@ -4,7 +4,8 @@ import Phaser from 'phaser';
 import garden from '../assets/images/garden.png';
 
 // Player lives icon
-import glove from '../assets/images/glove.png';
+import glove from '../assets/images/life/Glove.png';
+import gloveAnims from '../assets/images/life/Glove.json';
 
 // Spade player sprites
 import spade from '../assets/images/spade/Spade.png';
@@ -15,10 +16,15 @@ import aphid from '../assets/images/aphid/Aphid.png';
 import aphidAnims from '../assets/images/aphid/Aphid.json';
 
 // Parcel requires audio to be imported this way
-const bgmUrl = new URL('../assets/sounds/Still-Pickin.mp3', import.meta.url);
-const bossUrl = new URL('../assets/sounds/corncob-by-kevin-macleod-from-filmmusic-io.mp3', import.meta.url);
-const hitUrl = new URL('../assets/sounds/hit.mp3', import.meta.url);
-const swingUrl = new URL('../assets/sounds/swing.mp3', import.meta.url);
+const bgmUrl = new URL('../assets/audio/music/Still-Pickin.mp3', import.meta.url);
+const bossBgmUrl = new URL('../assets/audio/music/corncob-by-kevin-macleod-from-filmmusic-io.mp3', import.meta.url);
+const hitUrl = new URL('../assets/audio/sfx/hit.mp3', import.meta.url);
+const swingUrl = new URL('../assets/audio/sfx/swing.mp3', import.meta.url);
+const enemyHurtUrl = new URL('../assets/audio/sfx/enemy-hit.mp3', import.meta.url);
+const bossHurtUrl = new URL('../assets/audio/sfx/boss-hit.mp3', import.meta.url);
+const buzzUrl = new URL('../assets/audio/sfx/buzz.mp3', import.meta.url);
+const ouchUrl = new URL('../assets/audio/sfx/ouch.mp3', import.meta.url);
+
 
 export default class Preload extends Phaser.Scene
 {
@@ -26,24 +32,30 @@ export default class Preload extends Phaser.Scene
     {
         // Image preload
         this.load.image('garden', garden);
-        this.load.image('glove', glove);
         
         // Sprite preload
         this.load.aseprite('player', spade, spadeAnims);
         this.load.aseprite('aphid', aphid, aphidAnims);
+        this.load.aseprite('life', glove, gloveAnims);
 
         // Audio preload
         this.load.audio('bgm', `${bgmUrl}`);
-        this.load.audio('boss-theme', `${bossUrl}`);
+        this.load.audio('boss-theme', `${bossBgmUrl}`);
         this.load.audio('hit-sound', `${hitUrl}`);
         this.load.audio('swing', `${swingUrl}`);
+        this.load.audio('enemy-hit', `${enemyHurtUrl}`);
+        this.load.audio('boss-hit', `${bossHurtUrl}`);
+        this.load.audio('buzz', `${buzzUrl}`);
+        this.load.audio('ouch', `${ouchUrl}`);
+
     }
+
     create()
     {
         // Pre-create animations
         this.anims.createFromAseprite('player');
         this.anims.createFromAseprite('aphid');
-        this.scene.start('title-screen');
-        //this.scene.start('game')
+        
+        this.time.delayedCall(1000, this.scene.start('title-screen'));
     }
 }
