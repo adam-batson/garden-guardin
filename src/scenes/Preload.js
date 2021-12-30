@@ -30,10 +30,11 @@ const hitUrl = new URL('../assets/audio/sfx/hit.mp3', import.meta.url);
 const swingUrl = new URL('../assets/audio/sfx/swing.mp3', import.meta.url);
 const enemyHurtUrl = new URL('../assets/audio/sfx/enemy-hit.mp3', import.meta.url);
 const bossHurtUrl = new URL('../assets/audio/sfx/boss-hit.mp3', import.meta.url);
+const bossSwingUrl = new URL('../assets/audio/sfx/boss-swing.mp3', import.meta.url);
 const buzzUrl = new URL('../assets/audio/sfx/buzz.mp3', import.meta.url);
 const ouchUrl = new URL('../assets/audio/sfx/ouch.mp3', import.meta.url);
 const lifeUrl = new URL('../assets/audio/sfx/get-life.mp3', import.meta.url);
-
+const rockUrl = new URL('../assets/audio/sfx/qubodupshovelSpell3.mp3', import.meta.url);
 
 export default class Preload extends Phaser.Scene
 {
@@ -56,10 +57,11 @@ export default class Preload extends Phaser.Scene
         this.load.audio('swing', `${swingUrl}`);
         this.load.audio('enemy-hit', `${enemyHurtUrl}`);
         this.load.audio('boss-hit', `${bossHurtUrl}`);
+        this.load.audio('boss-swing', `${bossSwingUrl}`);
         this.load.audio('buzz', `${buzzUrl}`);
         this.load.audio('ouch', `${ouchUrl}`);
         this.load.audio('get-life', `${lifeUrl}`);
-
+        this.load.audio('rocks', `${rockUrl}`);
     }
 
     create()

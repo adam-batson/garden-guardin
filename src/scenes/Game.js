@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import RotateTo from 'phaser3-rex-plugins/plugins/rotateto';
+import MoveTo from 'phaser3-rex-plugins/plugins/moveto';
 import * as randoms from '../utils/randoms';
 import FloatingNumbersPlugin from "../utils/floating-text/FloatingNumbersPlugin";
 
@@ -43,16 +44,16 @@ export default class Game extends Phaser.Scene
         this.hit = this.sound.add('hit-sound');
         this.enemyHurt = this.sound.add('enemy-hit');
         this.bossHurt = this.sound.add('boss-hit');
+        this.bossSwing = this.sound.add('boss-swing');
         this.buzz = this.sound.add('buzz');
         this.ouch = this.sound.add('ouch');
         this.getLife = this.sound.add('get-life');
+        this.rocks = this.sound.add('rocks');
 
         this.bgm = this.sound.add('bgm', { loop: true });
         this.bossBgm = this.sound.add('boss-theme', { loop: true });
 
-        this.bgm.play({
-            volume: 0.85
-        });
+        this.bgm.play( { volume: 0.75 } );
 
         // Fades in to allow player to begin
         this.cameras.main.fadeIn(500, 0, 0, 0);        
@@ -76,13 +77,13 @@ export default class Game extends Phaser.Scene
         this.updateStatus();
     }
 
-//########################################################
-//#------------------------------------------------------#
-//#------------------------------------------------------#
-//#----------------- Utility methods  -------------------#
-//#------------------------------------------------------#
-//#------------------------------------------------------#
-//########################################################
+    //########################################################
+    //#------------------------------------------------------#
+    //#------------------------------------------------------#
+    //#----------------- Utility methods  -------------------#
+    //#------------------------------------------------------#
+    //#------------------------------------------------------#
+    //########################################################
     
     // Player init and control
     initPlayer()
@@ -117,7 +118,7 @@ export default class Game extends Phaser.Scene
 
     playerAttack()
     {
-        this.player.play('Attacking', true);
+        this.player.play('Spade-down', true);
         this.swingSound.play();
         this.checkKill();
     }
@@ -158,7 +159,7 @@ export default class Game extends Phaser.Scene
         aphid.setName('aphid' + this.aphidGroup.getLength())
             .setDepth(1)
             .setOrigin(0.5, 0.5)
-            .setScale(0.6, 0.6)
+            .setScale(0.4, 0.4)
             .play({
                 key: 'Walking',
                 repeat: -1,
@@ -198,7 +199,7 @@ export default class Game extends Phaser.Scene
         // Initialize wasp group
         this.waspGroup = this.add.group({
             defaultKey: 'wasp',
-            maxSize: 10,
+            maxSize: 5,
             createCallback: (wasp) => {
                 this.waspSetup(wasp);
                 this.waspControl(wasp);
@@ -220,7 +221,7 @@ export default class Game extends Phaser.Scene
         wasp.setName('aphid' + this.waspGroup.getLength())
             .setDepth(1)
             .setOrigin(0.5, 0.5)
-            .setScale(1, 1)
+            .setScale(0.75, 0.75)
             .play({
                 key: 'Flying',
                 repeat: -1,
@@ -249,6 +250,20 @@ export default class Game extends Phaser.Scene
             delay: Phaser.Math.RND.between(100, 300),
             ease: 'Expo',
         });
+
+        // Check if wasp can hit player
+        this.physics.overlap(wasp, this.player, () => {
+            this.buzz.play();
+            this.time.delayedCall(500, () => {
+                wasp.play({
+                    key: 'Attacking',
+                    repeat: 2,
+                    ignoreIfPlaying: false
+                });
+                this.ouch.play( { volume: 0.6 } );
+                this.lives--;
+            });
+        });
     }
 
     initBoss()
@@ -265,6 +280,9 @@ export default class Game extends Phaser.Scene
             });
         this.physics.add.existing(this.boss);
         this.boss.body.setCollideWorldBounds(true, 1, 1);
+
+        this.bgm.stop();
+        this.bossBgm.play( { volume: 0.75 } );
     }
 
     bossControl()
@@ -289,7 +307,48 @@ export default class Game extends Phaser.Scene
 
         // Check if boss can hit player
         this.physics.overlap(this.boss, this.player, () => {
-            
+            this.time.delayedCall(500, this.boss.play({
+                key: 'Attack',
+                repeat: 0,
+                ignoreIfPlaying: false
+            }))
+            this.bossSwing.play( { volume: 0.6 } );
+            this.time.delayedCall(500, this.ouch.play( { volume: 0.6 } ));
+            this.lives--; 
+        });
+    }
+
+    rockAttack()
+    {
+        var x = this.boss.x;
+        var y = this.boss.y;
+
+        this.rockGroup = this.add.group({
+            defaultKey: 'rock',
+            maxSize: 6,
+            createMultipleCallback: (rock) => {
+                this.rocks.play( { volume: 0.4 } );                
+                var moveTo = new MoveTo(rock);
+                moveTo.moveAway(x, y);
+                rock.play({
+                    key: 'Rolling',
+                    ignoreIfPlaying: true
+                });
+                this.physics.overlap(rock, this.player, () => {
+                    rock.destroy();
+                    this.hit.play( { volume: 0.7 } );
+                    this.time.delayedCall(500, this.ouch.play( { volume: 0.5 } ));
+                    this.lives--;
+                })
+            }
+        });
+
+        this.rockGroup.createMultiple({
+            quantity: 6,
+            setRotation: {
+                value: Phaser.Math.Angle.between(x, y, this.player.x, this.player.y),
+                step: 60
+            }
         });
     }
 
@@ -393,13 +452,12 @@ export default class Game extends Phaser.Scene
                 });
             }
                  
-            if(this.aphidsSpawned >= 20 && !this.waspGroup.isFull())
+            if(/*this.aphidsSpawned >= 20 && */!this.waspGroup.isFull())
             {
                 this.time.addEvent({
                     delay: 2500,
                     callback: () => {
                         this.waspGroup.create();
-                        console.log('spawned: ' + this.waspSpawned + ' | per wave: ' + this.waspThisWave + ' | in group: ' + this.waspGroup.getTotalUsed())
                     }
                 });
             }
@@ -410,7 +468,6 @@ export default class Game extends Phaser.Scene
                     delay: 5000,
                     callback: () => {
                         this.initBoss();
-                        console.log('Spawned boss')
                     }
                 });
             }
@@ -447,6 +504,20 @@ export default class Game extends Phaser.Scene
             },
             loop: true
         });
+    }
+
+    rockTimer()
+    {
+        if(this.boss)
+        {
+            this.time.addEvent({
+                delay: randoms.randomBetweenXY(10000, 15000),
+                callback: () => {
+                    this.rockAttack();
+                },
+                loop: true
+            })
+        }
     }
 
     lifeGainTimer()
@@ -487,3 +558,7 @@ export default class Game extends Phaser.Scene
     }
 }
 
+/*  TODO
+    Add iframes to player after lives--
+    Add gameover scene instructing refresh to play again
+*/

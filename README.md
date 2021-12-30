@@ -18,9 +18,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;In _Garden Guardin'_, you are a gardener trying to drive off pests in the garden. This game is very heavily inspired by Gnat Attack from Mario Paint.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Click on the pests to whack them with your spade. Pests come in waves, and some do not do any harm to you, while others do. You can only take 3 hits so avoid projectiles!
+&nbsp;&nbsp;&nbsp;&nbsp;You start with 3 lives but can have up to 5. You will gain 1 life every minute up to the max. Tiny aphids are quick but harmless, while the wasps will sting if you get close. Click to hit them first!
 
-&nbsp;&nbsp;&nbsp;&nbsp;When you whack 100 pests, the boss will appear! You can defeat it in 20 hits, but it uses several attacks against you.
+&nbsp;&nbsp;&nbsp;&nbsp;When you whack 100 pests, the boss will appear! You can defeat it in 20 hits, but it can swipe at you and scatter rocky dirt everywhere to hurt you.
 
 # **Installation**
 
@@ -49,6 +49,10 @@ Corncob by Kevin MacLeod <br>
 Link: https://incompetech.filmmusic.io/song/3554-corncob <br>
 License: https://filmmusic.io/standard-license
 
-bee.wav by IMadeIt, licensed CC-BY 3.0, source at https://opengameart.org/content/single-bee-sound.<br>
-No changes were made.<br>
+bee.wav by IMadeIt https://opengameart.org/content/single-bee-sound.<br>
+Original WAV converted to MP3 for browser compatibility, no other changes were made.<br>
+CC-BY 3.0 license details [here](https://creativecommons.org/licenses/by/3.0/legalcode).
+
+Shovel Spell by Iwan 'qubodup' Gabovitch http://opengameart.org/users/qubodup<br>
+Original FLAC converted to MP3 for browser compatibility, no other changes were made.<br>
 CC-BY 3.0 license details [here](https://creativecommons.org/licenses/by/3.0/legalcode).
