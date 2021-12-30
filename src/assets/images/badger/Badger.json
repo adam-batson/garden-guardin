@@ -1,0 +1,47 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 220, "h": 197 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 19, "y": 1, "w": 218, "h": 195 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 222, "y": 1, "w": 220, "h": 197 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 19, "y": 1, "w": 218, "h": 195 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 1, "y": 199, "w": 220, "h": 197 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 19, "y": 1, "w": 218, "h": 195 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 222, "y": 199, "w": 220, "h": 197 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 19, "y": 1, "w": 218, "h": 195 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.30-x64",
+  "image": "Badger.png",
+  "format": "RGBA8888",
+  "size": { "w": 442, "h": 396 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Moving", "from": 0, "to": 2, "direction": "forward" },
+   { "name": "Attack", "from": 3, "to": 3, "direction": "forward" }
+  ]
+ }
+}

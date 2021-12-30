@@ -1,6 +1,6 @@
 { "frames": {
    "0": {
-    "frame": { "x": 0, "y": 0, "w": 50, "h": 128 },
+    "frame": { "x": 1, "y": 1, "w": 52, "h": 130 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 39, "y": 0, "w": 50, "h": 128 },
@@ -8,7 +8,7 @@
     "duration": 100
    },
    "1": {
-    "frame": { "x": 50, "y": 0, "w": 50, "h": 98 },
+    "frame": { "x": 1, "y": 132, "w": 52, "h": 100 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 39, "y": 12, "w": 50, "h": 98 },
@@ -21,7 +21,7 @@
   "version": "1.2.30-x64",
   "image": "Spade.png",
   "format": "RGBA8888",
-  "size": { "w": 100, "h": 128 },
+  "size": { "w": 53, "h": 232 },
   "scale": "1",
   "frameTags": [
    { "name": "Resting", "from": 0, "to": 0, "direction": "forward" },

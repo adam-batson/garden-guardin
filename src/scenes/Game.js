@@ -1,5 +1,7 @@
-import Phaser, { Physics } from 'phaser';
+import Phaser from 'phaser';
 import RotateTo from 'phaser3-rex-plugins/plugins/rotateto';
+import * as randoms from '../utils/randoms';
+import FloatingNumbersPlugin from "../utils/floating-text/FloatingNumbersPlugin";
 
 export default class Game extends Phaser.Scene
 {
@@ -8,14 +10,11 @@ export default class Game extends Phaser.Scene
         // Initializing...
         // Game control variables
         this.pestsLeft = 100;
-        this.wave = 0;
         this.lives = 3;
     
         // Wave and spawn control variables
         this.activeEnemies = 0;
         this.aphidsSpawned = 0;
-        this.waspsSpawned = 0;
-        this.snailsSpawned = 0;   
     }
 
     preload()
@@ -23,11 +22,12 @@ export default class Game extends Phaser.Scene
         // The player sprite will follow the mouse cursor.
         // This removes the arrow from the cursor.
         this.sys.canvas.style.cursor = 'none';
+
+        this.load.scenePlugin('floatingNumbersPlugin', FloatingNumbersPlugin, 'floatingNumbersPlugin', 'floatingNumbers');
     }
 
     create()
     { 
-        this.waveSetup();
         this.initGroups();
         this.initPlayer();
 
@@ -45,9 +45,11 @@ export default class Game extends Phaser.Scene
         this.bossHurt = this.sound.add('boss-hit');
         this.buzz = this.sound.add('buzz');
         this.ouch = this.sound.add('ouch');
+        this.getLife = this.sound.add('get-life');
 
         this.bgm = this.sound.add('bgm', { loop: true });
         this.bossBgm = this.sound.add('boss-theme', { loop: true });
+
         this.bgm.play({
             volume: 0.85
         });
@@ -57,28 +59,31 @@ export default class Game extends Phaser.Scene
 
         // Init status text
         this.initStatus();
-        
-        // Init life pickup spawner
-        this.lifeSpawnTimer();
 
-        // Initial enemy spawn
+        // Start life gain timer
+        this.lifeGainTimer();
+
+        // Start enemy spawn timer
         this.spawnTimer();
 
-        // Animation handling
-        this.moveTimer();        
+        // Start enemy move timer
+        this.moveTimers();        
     }
 
     update()
     {
         this.playerControl();
-        this.waveSetup();
         this.updateStatus();
-        this.checkWaves();
-
-        this.lifeSpawnTimer();
     }
 
-// Utility methods
+//########################################################
+//#------------------------------------------------------#
+//#------------------------------------------------------#
+//#----------------- Utility methods  -------------------#
+//#------------------------------------------------------#
+//#------------------------------------------------------#
+//########################################################
+    
     // Player init and control
     initPlayer()
     {
@@ -108,9 +113,6 @@ export default class Game extends Phaser.Scene
         this.input.on('pointerup', () => { 
             this.player.play('Resting', false);
         });
-
-        // Watch for player to touch life pickups
-        this.checkLifePickup();
     }
 
     playerAttack()
@@ -118,125 +120,15 @@ export default class Game extends Phaser.Scene
         this.player.play('Attacking', true);
         this.swingSound.play();
         this.checkKill();
-
-    }
-
-    // Wave setup and control
-    checkWaves()
-    {
-        // Allows the wave to change.
-        var x = this.pestsLeft;
-
-        if(x <= 100 && x > 80)
-        {
-            this.wave = 1;
-        }
-        else if(x <= 80 && x > 60)
-        {
-            this.wave = 2;
-        }
-        else if(x <=60 && x > 40)
-        {
-            this.wave = 3;
-        }
-        else if(x <=40 && x > 20)
-        {
-            this.wave = 4;
-        }
-        else if(x >= 20)
-        {
-            this.wave = 5;
-        }
-        else if(x <= 0)
-        {
-        }
-    }
-
-    waveSetup()
-    {
-        switch(this.wave)
-        {
-            case 1:
-                this.setSpawnRates(20, 0, 0);
-                break;
-            case 2:
-                this.setSpawnRates(15, 5, 0);
-                break;
-            case 3:
-                this.setSpawnRates(10, 10, 0);
-                break;
-            case 4:
-                this.setSpawnRates(5, 10, 5);
-                break;
-            case 5:
-                this.setSpawnRates(0, 10, 10);
-                break;
-            default:
-                this.setSpawnRates(0, 0, 0);
-                break;
-        }
-    }
-
-    setSpawnRates(aphidNum, waspNum, snailNum)
-    {
-        this.aphidsThisWave = aphidNum;
-        this.waspsThisWave = waspNum;
-        this.snailsThisWave = snailNum;
     }
 
     // Groups init and control
     initGroups()
     {
         this.initAphids();
-        // this.initWasps();
-        // this.initSnails();
+        this.initWasps();
     }
-
-    // Life pickup spawning and control
-    lifeSpawn()
-    {
-        var x = this.randomEdgeSpawnPoint() + 1;
-        var y = this.randomEdgeSpawnPoint() + 1;
-
-        this.lifeSprite = this.add.sprite(x, y, 'life')
-
-        this.lifeSprite.setOrigin(0.5, 0.5)
-            .setDepth(1);
-        this.physics.add.existing(this.lifeSprite);
-        this.lifeControl(this.lifeSprite);
-    }
-
-    checkLifePickup()
-    {
-        if(this.lives < 5)
-        {
-            this.physics.overlap(this.player, this.lifeSprite, () => {
-                this.lives++;
-                this.lifeSprite.destroy(true);
-            })
-        }
-    }
-
-    lifeControl(life)
-    {
-        var x = life.x + (100 * this.randomPosOrNeg());
-        var y = life.y + (100 * this.randomPosOrNeg());
-
-        this.tweens.add({
-            targets: life,
-            x: x,
-            y: y,
-            duration: 100,
-            delay: Phaser.Math.RND.between(100, 500),
-            ease: 'SineIn',
-        });        
-
-        if(life.x < 0 || life.y < 0 || life.x > 800 || life.y > 800)
-        {
-            life.destroy(true);
-        }
-    }
-
+   
     // Aphids init and control
     initAphids()
     {
@@ -246,7 +138,7 @@ export default class Game extends Phaser.Scene
             maxSize: 10,
             createCallback: (aphid) => {
                 this.aphidSetup(aphid);
-                this.spriteControl(aphid);
+                this.aphidControl(aphid);
                 this.activeEnemies++;
                 this.aphidsSpawned++;
             },
@@ -259,8 +151,9 @@ export default class Game extends Phaser.Scene
 
     aphidSetup(aphid)
     {
-        aphid.x = this.randomEdgeSpawnPoint();
-        aphid.y = this.randomBetweenXY(0, 800);
+        // Create individual aphids on the left or right side at random Y coordinate
+        aphid.x = randoms.randomEdgeSpawnPoint();
+        aphid.y = randoms.randomBetweenXY(0, 800);
 
         aphid.setName('aphid' + this.aphidGroup.getLength())
             .setDepth(1)
@@ -275,72 +168,135 @@ export default class Game extends Phaser.Scene
         aphid.body.setCollideWorldBounds(true, 1, 1);
     }
 
-    spriteControl(sprite)
+    aphidControl(aphid)
     {
         // Gets random x & y to move to.
         do {
-            var x = sprite.x + (100 * this.randomPosOrNeg());
+            var x = aphid.x + (randoms.randomBetweenXY(25, 50) * randoms.randomPosOrNeg());
         } while(x < 10 || x > 790);
         do {
-            var y = sprite.y + (100 * this.randomPosOrNeg());
+            var y = aphid.y + (randoms.randomBetweenXY(25, 50) * randoms.randomPosOrNeg());
         } while(y < 10 || y > 790);
 
-        var rotateTo = new RotateTo(sprite);
-        rotateTo.rotateTowardsPosition(x, y, 0, 500);
+        // Change aphid facing
+        var rotateTo = new RotateTo(aphid);
+        rotateTo.rotateTowardsPosition(x, y, 0, 800);
 
         // Smoothly transitions to the new location.
         this.tweens.add({
-            targets: sprite,
+            targets: aphid,
             x: x,
             y: y,
-            duration: 300,
-            delay: Phaser.Math.RND.between(100, 500),
+            duration: 200,
+            delay: 250,
             ease: 'SineIn',
         });
     }
 
     initWasps()
     {
-        // // Initialize wasp group
-        // this.waspGroup = this.add.group({
-        //     defaultKey: 'wasp',
-        //     maxSize: 10,
-        //     createCallback: (wasp) => {
-        //         this.initWasp(wasp);
-        //         this.waspMove(wasp);
-        //         this.activeEnemies++;
-        //         this.waspsSpawned++;
-        //     },
-        //     removeCallback: (wasp) => {
-        //         this.activeEnemies--;
-        //         this.pestsLeft--;
-        //     }
-        // });
+        // Initialize wasp group
+        this.waspGroup = this.add.group({
+            defaultKey: 'wasp',
+            maxSize: 10,
+            createCallback: (wasp) => {
+                this.waspSetup(wasp);
+                this.waspControl(wasp);
+                this.activeEnemies++;
+            },
+            removeCallback: () => {
+                this.activeEnemies--;
+                this.pestsLeft--;
+            }
+        });
     }
 
-    initSnails()
+    waspSetup(wasp)
     {
-        // Initialize snail group
-        // this.snailGroup = this.add.group({
-        //     defaultKey: 'snail',
-        //     maxSize: 10,
-        //     createCallback: (snail) => {
-        //         this.initSnail(snail);
-        //         this.snailMove(snail);
-        //         this.activeEnemies++;
-        //         this.snailsSpawned++;
-        //     },
-        //     removeCallback: (snail) => {
-        //         this.activeEnemies--;
-        //         this.pestsLeft--;
-        //     }
-        // });
+        // Create individual wasps on the left or right side at random Y coordinate
+        wasp.x = randoms.randomEdgeSpawnPoint();
+        wasp.y = randoms.randomBetweenXY(0, 800);
+
+        wasp.setName('aphid' + this.waspGroup.getLength())
+            .setDepth(1)
+            .setOrigin(0.5, 0.5)
+            .setScale(1, 1)
+            .play({
+                key: 'Flying',
+                repeat: -1,
+                ignoreIfPlaying: true
+            });
+        this.physics.add.existing(wasp);
+        wasp.body.setCollideWorldBounds(true, 1, 1);
+    }
+
+    waspControl(wasp)
+    {
+        // Gets random x & y to move to.
+        do {
+            var x = wasp.x + (randoms.randomBetweenXY(75, 150) * randoms.randomPosOrNeg());
+        } while(x < 10 || x > 790);
+        do {
+            var y = wasp.y + (randoms.randomBetweenXY(75, 150) * randoms.randomPosOrNeg());
+        } while(y < 10 || y > 790);
+
+        // Smoothly transitions to the new location.
+        this.tweens.add({
+            targets: wasp,
+            x: x,
+            y: y,
+            duration: 300,
+            delay: Phaser.Math.RND.between(100, 300),
+            ease: 'Expo',
+        });
+    }
+
+    initBoss()
+    {
+        // Create the boss
+        this.boss = this.add.sprite(400, 400, 'boss')
+            .setDepth(1)
+            .setOrigin(0.5, 0.5)
+            .setScale(2, 2)
+            .play({
+                key: 'Moving',
+                repeat: -1,
+                ignoreIfPlaying: true
+            });
+        this.physics.add.existing(this.boss);
+        this.boss.body.setCollideWorldBounds(true, 1, 1);
+    }
+
+    bossControl()
+    {
+        // Gets random x & y to move to.
+        do {
+            var x = wasp.x + (randoms.randomBetweenXY(75, 150) * randoms.randomPosOrNeg());
+        } while(x < 10 || x > 790);
+        do {
+            var y = wasp.y + (randoms.randomBetweenXY(75, 150) * randoms.randomPosOrNeg());
+        } while(y < 10 || y > 790);
+
+        // Smoothly transitions to the new location.
+        this.tweens.add({
+            targets: this.boss,
+            x: x,
+            y: y,
+            duration: 500,
+            delay: Phaser.Math.RND.between(100, 200),
+            ease: 'Power1',
+        });
+
+        // Check if boss can hit player
+        this.physics.overlap(this.boss, this.player, () => {
+            
+        });
     }
 
     // Status text init and control
     initStatus()
     {
-        // Add status text for waves and lives
+        // Add status text for pests and lives
         this.lifeText = this.add.text(275, 30, 'Lives: ' + this.lives)
         .setOrigin(0.5, 0.5)    
         .setFontFamily('game-font')
@@ -355,22 +311,61 @@ export default class Game extends Phaser.Scene
     }        
 
     updateStatus()
-    {
+    {   
+        // Update status text for pests and lives
         this.statusText.setText('Pests: ' + this.pestsLeft);
         this.lifeText.setText('Lives: ' + this.lives);
     }
 
     checkKill()
     {
-        // When player overlaps an aphid...
+        // When player overlaps an enemy, check each enemy in the group
+        // to see if it's the one overlapping the player. If so,
+        // remove and destroy it.
+
+        // Aphids
         this.physics.overlap(this.player, this.aphidGroup, () => { 
-            // Check each aphid in the group to see if it's the one overlaping the player...
             this.aphidGroup.children.each((child) => this.physics.overlap(this.player, child, () => {
-                // If so, remove and destroy it.
                 this.hitSounds();
                 this.aphidGroup.remove(child, true, true)})
             )}
         );
+        
+        // Wasps
+        this.physics.overlap(this.player, this.waspGroup, () => { 
+            this.waspGroup.children.each((child) => this.physics.overlap(this.player, child, () => {
+                this.hitSounds();
+                this.waspGroup.remove(child, true, true)})
+            )}
+        );
+
+        // Boss
+        this.physics.overlap(this.player, this.boss, () => { 
+            this.hitSounds();
+            this.bossHits++;
+            this.time.addEvent({
+                delay: 250,
+                repeat: true,
+                repeatCount: 3,
+                callback: () => {
+                    this.bossGroup.setTint(0xffffff);
+                },
+            });
+            
+            this.time.addEvent({
+                delay: 750,
+                repeat: true,
+                repeatCount: 3,
+                callback: () => {
+                    this.bossGroup.clearTint();
+                }
+            });
+            
+            if(bossHits == 20)
+            {
+                this.bossGroup.remove(child, true, true);
+            }
+        });
     }
 
     hitSounds()
@@ -386,11 +381,38 @@ export default class Game extends Phaser.Scene
 
     spawnEnemies()
     {
-        if(this.activeEnemies < 20)
-        {
-            if(this.aphidGroup.getTotalUsed() < this.aphidsThisWave)
+        if(this.pestsLeft >= 0 && this.activeEnemies < 20)
+        {                  
+            if(!this.aphidGroup.isFull())
             {
-                this.aphidGroup.create();
+                this.time.addEvent({
+                    delay: 1500,
+                    callback: () => {
+                        this.aphidGroup.create();
+                    }
+                });
+            }
+                 
+            if(this.aphidsSpawned >= 20 && !this.waspGroup.isFull())
+            {
+                this.time.addEvent({
+                    delay: 2500,
+                    callback: () => {
+                        this.waspGroup.create();
+                        console.log('spawned: ' + this.waspSpawned + ' | per wave: ' + this.waspThisWave + ' | in group: ' + this.waspGroup.getTotalUsed())
+                    }
+                });
+            }
+
+            if(this.pestsLeft === 0 && !this.boss)
+            {
+                this.time.addEvent({
+                    delay: 5000,
+                    callback: () => {
+                        this.initBoss();
+                        console.log('Spawned boss')
+                    }
+                });
             }
         } 
     }
@@ -399,7 +421,7 @@ export default class Game extends Phaser.Scene
     spawnTimer()
     {
         // Allows repeating events such as spawns and movement changes.
-        var timer = this.time.addEvent({
+        this.time.addEvent({
             delay: 2000,
             callback: () => {
                 this.spawnEnemies();
@@ -408,61 +430,60 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    moveTimer()
+    moveTimers()
     {
-        var timer = this.time.addEvent({
+        this.time.addEvent({
             delay: 500,
             callback: () => {
-                this.aphidGroup.children.each((child) => this.spriteControl(child), this);
+                this.aphidGroup.children.each((child) => this.aphidControl(child), this);
+            },
+            loop: true
+        });
 
+        this.time.addEvent({
+            delay: 750,
+            callback: () => {
+                this.waspGroup.children.each((child) => this.waspControl(child), this);
             },
             loop: true
         });
     }
 
-    lifeSpawnTimer()
+    lifeGainTimer()
     {
-        // Generates an extra life after 10 to 30 seconds
-        // To be used at the start of each wave
+        // Generates an extra life every minute
         this.time.addEvent({
-            delay: 0,
+            delay: 60000,
             callback: () => {
-                this.time.addEvent({
-                    delay: this.randomBetweenXY(10000, 30000),
-                    callback: () => {
-                        this.lifeSpawn();
-                    }
-                })
+                this.getLife.play( { volume: 0.7 } );
+                if(this.lives < 5)
+                {
+                    this.lifeGainText();
+                    this.lives++;            
+                }
             },
-            loop: true
+            repeat: true,
+            repeatCount: 5
         });       
     }
 
-    // Random number generators
-    randomPosOrNeg() // Returns -1 or 1
+    lifeGainText()
     {
-        do {
-            var coord = Phaser.Math.RND.between(-1, 1);
-        } while (coord === 0);
-
-        return coord;
-    }
-
-    randomEdgeSpawnPoint()
-    {
-        return Phaser.Math.RND.between(0, 1) * 800;
-    }
-
-    randomBetweenXY(x, y) // Sets X or Y coordinate for use in spawning and movement of enemies.
-    {
-        return Phaser.Math.RND.between(x, y);
+        this.floatingNumbers.createFloatingText({
+            textOptions: {
+                fontFamily: 'game-font',
+                fontSize: 28,
+                color: "#ffffff",
+                strokeThickness: 2,
+                fontWeight: "normal",
+                stroke: "#000000",
+            },
+            text: "+1 Life",
+            align: "top-center",
+            parentObject: this.player,
+            animation: "up",
+            animationEase: "Linear"
+        });
     }
 }
-//Plan is to remove groups and just spawn numbers based on waves
-//This will allow each individual enemy to move about and not lock any out
-//Enemy ideas:
-    //snails who stop and hide in shell so often and become invulnerable but are otherwise harmless
-    //wasps who sting
-    //moles who throw dirt wads
-    //slugs who leave damaging trails
-    //boss 
+

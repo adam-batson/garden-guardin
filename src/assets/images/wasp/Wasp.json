@@ -1,0 +1,47 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 64, "h": 63 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 3, "w": 62, "h": 61 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 66, "y": 1, "w": 64, "h": 63 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 3, "w": 62, "h": 61 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 1, "y": 65, "w": 64, "h": 63 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 3, "w": 62, "h": 61 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 66, "y": 65, "w": 64, "h": 63 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 3, "w": 62, "h": 61 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.30-x64",
+  "image": "Wasp.png",
+  "format": "RGBA8888",
+  "size": { "w": 130, "h": 128 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Flying", "from": 0, "to": 1, "direction": "forward" },
+   { "name": "Attacking", "from": 2, "to": 3, "direction": "forward" }
+  ]
+ }
+}

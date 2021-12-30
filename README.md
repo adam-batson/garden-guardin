@@ -36,6 +36,8 @@ Press Start 2P uses SIL Open Font License. See license [here](https://github.com
 
 Phaser 3 uses MIT License. See license [here](https://phaser.io/download/license).
 
+FloatingNumbersPlugin uses MIT License. See license [here](https://github.com/netgfx/Phaser-FloatingNumbersPlugin/blob/master/LICENSE).
+
 **Audio Attribution**: <br>
 Music uses [this](https://incompetech.filmmusic.io/standard-license) license. The license requires attribution in the exact format below.
 
