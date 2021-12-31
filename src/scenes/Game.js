@@ -8,7 +8,7 @@ export default class Game extends Phaser.Scene
     {
         // Initializing...
         // Game control variables
-        this.pestsLeft = 1;
+        this.pestsLeft = 100;
         this.lives = 5;
         this.bossLife = 10;
 
