@@ -10,7 +10,7 @@ export default class Game extends Phaser.Scene
     {
         // Initializing...
         // Game control variables
-        this.pestsLeft = 100;
+        this.pestsLeft = 0;
         this.lives = 3;
         this.bossLife = 1;
 
@@ -169,7 +169,7 @@ export default class Game extends Phaser.Scene
             .play({
                 key: 'Rolling',
                 repeat: -1,
-                ignoreIfPlaying: true
+                ignoreIfPlaying: false
             });
         this.physics.add.existing(rock);
         rock.body.setCircle(12, 4, 4);
@@ -184,14 +184,13 @@ export default class Game extends Phaser.Scene
         this.physics.moveTo(rock, x, y, 150);
 
         this.physics.overlap(rock, this.player, () => {
-            this.rockGroup.remove(rock);
+            rock.destroy();
             this.time.delayedCall(500, () => { this.playerHit() });
         });
         if(rock.x <= 0 || rock.x >= 800 || rock.y <= 0 || rock.y >= 800)
         {
-            this.rockGroup.remove(rock);
+            rock.destroy();
         }
-
     }
 
     // Aphids init and control
@@ -253,7 +252,7 @@ export default class Game extends Phaser.Scene
             targets: aphid,
             x: x,
             y: y,
-            duration: 500,
+            duration: 250,
             delay: 250,
             ease: 'SineIn',
         });
@@ -320,19 +319,19 @@ export default class Game extends Phaser.Scene
         // Check if wasp can hit player
         this.physics.overlap(wasp, this.player, () => {
             this.buzz.play( { volume: 2.5 } );
-            this.time.delayedCall(500, () => {
-                wasp.play({
-                    key: 'Sting',
-                    repeat: 5,
-                    ignoreIfPlaying: true
-                });
-                this.time.delayedCall(1000, () => {
-                    wasp.play({
-                        key: 'Flying',
-                        repeat: -1,
-                        ignoreIfPlaying: true
-                    });
-                });
+            wasp.play({
+                key: 'Sting',
+                delay: 500,
+                repeat: 5,
+                repeatDelay: 50,
+                ignoreIfPlaying: true
+            });
+            wasp.play({
+                key: 'Flying',
+                delay: 750,
+                repeat: -1,
+                ignoreIfPlaying: true
+            });
                 // Verifies player hasn't moved away from wasp and isn't invulerable
                 var diffX = wasp.x - this.player.x;
                 var diffY = wasp.y - this.player.y;
@@ -340,7 +339,6 @@ export default class Game extends Phaser.Scene
                 {
                     this.physics.overlap(wasp, this.player, () => { this.playerHit() });
                 }
-            });
         });
     }
 
@@ -399,25 +397,22 @@ export default class Game extends Phaser.Scene
 
         // Check if boss can hit player
         this.physics.overlap(boss, this.player, () => {
-            this.time.delayedCall(500, () => {
-                boss.play({
-                    key: 'Attack',
-                    repeat: true,
-                    repeatCount: 2,
-                    ignoreIfPlaying: true
-                });
-                this.time.delayedCall(500, () => {
-                    boss.play({
-                        key: 'Moving',
-                        repeat: -1,
-                        ignoreIfPlaying: true
-                    });
-                });
+            boss.play({
+                key: 'Attack',
+                delay: 500,
+                repeat: 5,
+                repeatDelay: 50,
+                ignoreIfPlaying: true
             });
-            this.bossSwing.play( { volume: 0.8 } );
-            console.log('boss attacking')
-            this.time.delayedCall(500, this.playerHit());
+            boss.play({
+                key: 'Moving',
+                delay: 500,
+                repeat: -1,
+                ignoreIfPlaying: true
+            });
         });
+            this.bossSwing.play( { volume: 0.8 } );
+            this.time.delayedCall(500, this.playerHit());
     }
 
     spawnEnemies()
@@ -702,11 +697,11 @@ export default class Game extends Phaser.Scene
                     if(this.bossGroup.isFull())
                     {
                         this.bossSpawned = true;
-
+                        var boss = this.bossGroup.getFirstAlive();
                         this.time.addEvent({
                             delay: 1000,
                             callback: () => {
-                                this.bossControl(this.bossGroup.getFirst());
+                                this.bossControl(boss);
                             },
                             loop: true
                         });
