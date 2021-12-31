@@ -221,6 +221,13 @@ export default class Game extends Phaser.Scene
                 this.physics.add.existing(aphid);
                 aphid.body.setCircle(28, 0, 0);
                 aphid.body.setCollideWorldBounds(true, 1, 1);
+                
+                this.physics.overlap(aphid, this.player, () => {
+                    this.input.once('pointerdown', () => {     
+                        this.hitSoundsEnemy();
+                        aphid.destroy();
+                    });
+                });
             },
             removeCallback: (aphid) => {
                 if(!this.aphidGroup.contains(aphid))
@@ -552,12 +559,12 @@ export default class Game extends Phaser.Scene
         // remove and destroy it.
 
         // Aphids
-        this.aphidGroup.children.each((aphid) => { 
-            this.physics.overlap(this.player, aphid, () => {
-                this.hitSoundsEnemy();
-                aphid.destroy();
-            });
-        });
+        // this.aphidGroup.children.each((aphid) => { 
+        //     this.physics.overlap(this.player, aphid, () => {
+        //         this.hitSoundsEnemy();
+        //         aphid.destroy();
+        //     });
+        // });
         
         // Wasps
         this.waspGroup.children.each((wasp) => { 
