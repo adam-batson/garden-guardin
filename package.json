@@ -2,8 +2,8 @@
   "name": "garden-guarding",
   "version": "1.0.0",
   "description": "Garden Guarding - HTML5 game made with Phaser for MLIP Capstone",
-  "main": "index.js",
   "scripts": {
+    "build": "parcel build src/index.html --public-url ./ --no-source-maps",
     "start": "parcel src/index.html -p 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
