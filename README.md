@@ -26,7 +26,7 @@
 
 # **Installation**
 
-&nbsp;&nbsp;&nbsp;&nbsp;If you want to play this game and you don't need the code, **I recommend doing that [here]().** <br>
+&nbsp;&nbsp;&nbsp;&nbsp;If you want to play this game and you don't need the code, itch.io upload is currently pending.<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;To install and run this game, you'll need node.js and npm installed. After that, clone the repo, then run npm install in your terminal. Then to run the game, run npm start in the terminal and go to localhost:8000 on your browser.
 
