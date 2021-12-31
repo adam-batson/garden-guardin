@@ -41,7 +41,7 @@
   "scale": "1",
   "frameTags": [
    { "name": "Flying", "from": 0, "to": 1, "direction": "forward" },
-   { "name": "Attacking", "from": 2, "to": 3, "direction": "forward" }
+   { "name": "Sting", "from": 2, "to": 3, "direction": "forward" }
   ]
  }
 }

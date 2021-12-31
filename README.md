@@ -49,10 +49,18 @@ Corncob by Kevin MacLeod <br>
 Link: https://incompetech.filmmusic.io/song/3554-corncob <br>
 License: https://filmmusic.io/standard-license
 
-bee.wav by IMadeIt https://opengameart.org/content/single-bee-sound.<br>
-Original WAV converted to MP3 for browser compatibility, no other changes were made.<br>
+bee.wav by IMadeIt, https://opengameart.org/content/single-bee-sound.<br>
+Original WAV converted to MP3 for browser compatibility, no other alterations were made.<br>
 CC-BY 3.0 license details [here](https://creativecommons.org/licenses/by/3.0/legalcode).
 
-Shovel Spell by Iwan 'qubodup' Gabovitch http://opengameart.org/users/qubodup<br>
-Original FLAC converted to MP3 for browser compatibility, no other changes were made.<br>
+Shovel Spell by Iwan 'qubodup' Gabovitch, http://opengameart.org/users/qubodup<br>
+Original FLAC converted to MP3 for browser compatibility, no other alterations were made.<br>
 CC-BY 3.0 license details [here](https://creativecommons.org/licenses/by/3.0/legalcode).
+
+"Smooth Guitar Fanfare" by Owlish Media, owlishmedia.com
+Original WAV converted to MP3 for browser compatibility, no other alterations were made.<br>
+CC-BY 4.0 license details [here](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+"I wasn't Paying Attention" by Pixel Guy, https://opengameart.org/content/69-game-over-jingles-pack<br>
+Original WAV converted to MP3 for browser compatibility, no other alterations were made.<br>
+CC-BY 4.0 license details [here](https://creativecommons.org/licenses/by/4.0/legalcode).

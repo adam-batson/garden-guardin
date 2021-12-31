@@ -24,8 +24,11 @@ import rock from '../assets/images/rock-throw/Thrown.png';
 import rockAnims from '../assets/images/rock-throw/Thrown.json';
 
 // Parcel requires audio to be imported this way
+// Background music
 const bgmUrl = new URL('../assets/audio/music/Still-Pickin.mp3', import.meta.url);
 const bossBgmUrl = new URL('../assets/audio/music/corncob-by-kevin-macleod-from-filmmusic-io.mp3', import.meta.url);
+
+// Sound Effects
 const hitUrl = new URL('../assets/audio/sfx/hit.mp3', import.meta.url);
 const swingUrl = new URL('../assets/audio/sfx/swing.mp3', import.meta.url);
 const enemyHurtUrl = new URL('../assets/audio/sfx/enemy-hit.mp3', import.meta.url);
@@ -35,6 +38,8 @@ const buzzUrl = new URL('../assets/audio/sfx/buzz.mp3', import.meta.url);
 const ouchUrl = new URL('../assets/audio/sfx/ouch.mp3', import.meta.url);
 const lifeUrl = new URL('../assets/audio/sfx/get-life.mp3', import.meta.url);
 const rockUrl = new URL('../assets/audio/sfx/qubodupshovelSpell3.mp3', import.meta.url);
+const winUrl = new URL('../assets/audio/sfx/fanfare.mp3', import.meta.url);
+const loseUrl = new URL("../assets/audio/sfx/Pixel Guy - Game Over Jingles Pack - 07 I wasn't Paying Attention.mp3", import.meta.url);
 
 export default class Preload extends Phaser.Scene
 {
@@ -62,6 +67,9 @@ export default class Preload extends Phaser.Scene
         this.load.audio('ouch', `${ouchUrl}`);
         this.load.audio('get-life', `${lifeUrl}`);
         this.load.audio('rocks', `${rockUrl}`);
+        this.load.audio('win', `${winUrl}`);
+        this.load.audio('lose', `${loseUrl}`);
+
     }
 
     create()
