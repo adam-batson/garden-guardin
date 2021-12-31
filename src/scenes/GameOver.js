@@ -20,7 +20,7 @@ export default class GameOver extends Phaser.Scene
         });
 
          // Clicking or touching will begin the fade out.
-         this.input.keyboard.once('pointerdown', () => {
+         this.input.once('pointerdown', () => {
             this.cameras.main.fadeOut(500, 0, 0, 0);
         });
 

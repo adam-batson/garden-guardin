@@ -20,7 +20,7 @@ export default class TitleScreen extends Phaser.Scene
         });
 
         // Pressing start will begin the fade out.
-        this.input.on('pointerdown', () => {
+        this.input.once('pointerdown', () => {
             this.cameras.main.fadeOut(500, 0, 0, 0);
         });
 
