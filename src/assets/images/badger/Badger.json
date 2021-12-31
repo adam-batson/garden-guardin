@@ -8,7 +8,7 @@
     "duration": 100
    },
    "1": {
-    "frame": { "x": 222, "y": 1, "w": 220, "h": 197 },
+    "frame": { "x": 1, "y": 199, "w": 220, "h": 197 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 19, "y": 1, "w": 218, "h": 195 },
@@ -16,7 +16,7 @@
     "duration": 100
    },
    "2": {
-    "frame": { "x": 1, "y": 199, "w": 220, "h": 197 },
+    "frame": { "x": 222, "y": 1, "w": 220, "h": 197 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 19, "y": 1, "w": 218, "h": 195 },
@@ -41,7 +41,7 @@
   "scale": "1",
   "frameTags": [
    { "name": "Moving", "from": 0, "to": 2, "direction": "forward" },
-   { "name": "Attack", "from": 3, "to": 3, "direction": "forward" }
+   { "name": "Attack", "from": 2, "to": 3, "direction": "forward" }
   ]
  }
 }

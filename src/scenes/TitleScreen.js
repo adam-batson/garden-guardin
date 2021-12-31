@@ -8,7 +8,7 @@ export default class TitleScreen extends Phaser.Scene
 
     create()
     {   
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(500, () => {
             this.add.text(400, 250, "Garden Guardin'")
                 .setOrigin(0.5, 0.5)
                 .setFontFamily('game-font')

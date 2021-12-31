@@ -81,6 +81,11 @@ export default class Preload extends Phaser.Scene
         this.anims.createFromAseprite('boss');
         this.anims.createFromAseprite('rock');
 
-        this.scene.start('title-screen');
+        this.add.text(400, 400, "Loading...")
+        .setOrigin(0.5, 0.5)
+        .setFontFamily('game-font')
+        .setFontSize(40);
+
+        this.time.delayedCall(500, () => { this.scene.start('title-screen') });
     }
 }

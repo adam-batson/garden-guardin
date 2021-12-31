@@ -18,9 +18,11 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;In _Garden Guardin'_, you are a gardener trying to drive off pests in the garden. This game is very heavily inspired by Gnat Attack from Mario Paint.
 
-&nbsp;&nbsp;&nbsp;&nbsp;You start with 3 lives but can have up to 5. You will gain 1 life every minute up to the max. Tiny aphids are quick but harmless, while the wasps will sting if you get close. Click to hit them first!
+&nbsp;&nbsp;&nbsp;&nbsp;You start with 5 lives but can have up to 10. You will gain 1 life every 30 seconds up to the max.
 
-&nbsp;&nbsp;&nbsp;&nbsp;When you whack 100 pests, the boss will appear! You can defeat it in 20 hits, but it can swipe at you and scatter rocky dirt everywhere to hurt you.
+&nbsp;&nbsp;&nbsp;&nbsp;Tiny aphids are quick but harmless, while the wasps will sting if you get close. Click to hit them first!
+
+&nbsp;&nbsp;&nbsp;&nbsp;When you whack 100 pests, the boss will appear! You can defeat it in 10 hits, but it can swipe at you and scatter rocky dirt around to hurt you.
 
 # **Installation**
 
