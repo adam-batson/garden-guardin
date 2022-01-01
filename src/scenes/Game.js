@@ -136,65 +136,91 @@ export default class Game extends Phaser.Scene
         this.bossInit();
     }
    
-    // Rocks init and control
-    rocksInit()
+    // Initialize groups of enemies
+    enemiesInit()
     {
         // Initialize rocks group
-        this.rocksGroup = this.add.group({
+        this.rockGroup = this.add.group({
             defaultKey: 'rock',
             maxSize: 6,
             createCallback: (rock) => {
-                rock.x = this.boss.x;
-                rock.y = this.boss.y;
-                
-                rock.setName('rock' + this.rocksGroup.getLength())
-                    .setDepth(2)
-                    .setOrigin(0.5, 0.5)
-                    .setScale(1.5, 1.5)
-                    .play({
-                        key: 'Rolling',
-                        repeat: -1,
-                        ignoreIfPlaying: false
-                    });
-                
-                this.physics.add.existing(rock);
-                rock.body.setCircle(12, 4, 4);
-                this.rocksControl(rock);
-                this.physics.add.collider(rock, this.player, () => {
-                    rock.body.destroy();
-                    rock.destroy();
-                    this.playerHit();
-                });
+                rock.setName('rock' + this.rockGroup.getLength())
+                this.enemiesCreate(rock);
             }
         });
-    }
 
-    rocksControl(rock)
-    {
-        var x = randoms.randomBetweenXY(0, 800);
-        var y = randoms.randomBetweenXY(0, 800);
-
-        this.physics.moveTo(rock, x, y, 500);
-    }
-
-    // Aphids init and control
-    aphidsInit()
-    {
         // Initialize aphid group
         this.aphidGroup = this.add.group({
             defaultKey: 'aphid',
             maxSize: 10,
             createCallback: (aphid) => {
-                this.activeEnemies++;
-
-                // Aphid setup
-                aphid.x = randoms.randomEdgeSpawnPoint();
-                aphid.y = randoms.randomBetweenXY(0, 800);
-        
                 aphid.setName('aphid' + this.aphidGroup.getLength())
-                    .setDepth(1)
-                    .setOrigin(0.5, 0.5)
-                    .setScale(0.4, 0.4)
+                this.enemiesCreate(aphid);
+            },
+            removeCallback: (aphid) => {
+                this.enemiesRemove(aphid);
+            }
+        });
+
+        // Initialize wasp group
+        this.waspGroup = this.add.group({
+            defaultKey: 'wasp',
+            maxSize: 5,
+            createCallback: (wasp) => {
+                wasp.setName('wasp' + this.waspGroup.getLength())
+                this.enemiesCreate(wasp);
+            },
+            removeCallback: (wasp) => {
+                this.enemiesRemove(wasp);
+            }
+        });
+    }
+
+    enemiesCreate(enemy)
+    {
+        var name = enemy.name;
+
+        enemy.setDepth(1)
+        enemy.setOrigin(0.5, 0.5);
+
+        if(name.contains('aphid') || name.contains('wasp'))
+        {
+            // Spawns at a random y along the left or right edge of the screen
+            enemy.x = randoms.randomEdgeSpawnPoint();
+            enemy.y = randoms.randomBetweenXY(0, 800);
+
+            this.activeEnemies++;
+        }
+
+        if(name.contains('rock'))
+        {
+            enemy.x = this.boss.x;
+            enemy.y = this.boss.y;
+            
+            enemy.setDepth(1)
+                .setScale(1.5, 1.5)
+                .play({
+                    key: 'Rolling',
+                    repeat: -1,
+                    ignoreIfPlaying: false
+                });
+
+            // Starts movement
+            this.rocksControl(enemy);
+
+            // Physics
+            this.physics.add.existing(enemy);
+            enemy.body.setCircle(12, 4, 4);
+            this.physics.add.collider(enemy, this.player, () => {
+                enemy.body.destroy();
+                enemy.destroy();
+                this.playerHit();
+            });
+        }
+        else if(!name.contains('aphid'))
+        {
+                // Aphid setup
+                enemy.setScale(0.4, 0.4)
                     .play({
                         key: 'Walking',
                         repeat: -1,
@@ -217,52 +243,17 @@ export default class Game extends Phaser.Scene
                 aphid.body.setCollideWorldBounds(true, 1, 1);
                 
                 this.deathHandler(enemy);
-            },
-            removeCallback: (aphid) => {
-                if(!this.aphidGroup.contains(aphid))
-                {
-                    this.activeEnemies--;
-                    this.pestsLeft--;
-                }
-            }
-        });
-    }
-
-    aphidControl(aphid)
-    {
-        // Gets random x & y to move to.
-        var x = aphid.x + (randoms.randomBetweenXY(50, 75) * randoms.randomPosOrNeg());
-        var y = aphid.y + (randoms.randomBetweenXY(50, 75) * randoms.randomPosOrNeg());
-
-        // Smoothly transitions to the new location.
-        this.tweens.add({
-            targets: aphid,
-            x: x,
-            y: y,
-            duration: 600,
-            ease: 'Power1',
-        });
-
-    }
-
-    waspsInit()
-    {
-        // Initialize wasp group
-        this.waspGroup = this.add.group({
-            defaultKey: 'wasp',
-            maxSize: 5,
-            createCallback: (wasp) => {
-                this.activeEnemies++;
-
+        }
+        else if (name.contains('wasp'))
+        {
                 // Wasp setup
                 wasp.x = randoms.randomEdgeSpawnPoint();
                 wasp.y = randoms.randomBetweenXY(0, 800);
         
-                wasp.setName('wasp' + this.waspGroup.getLength())
-                    .setDepth(1)
+                enemy.setDepth(1)
                     .setOrigin(0.5, 0.5)
                     .play({
-                        key: 'Flying',
+                        key: 'Moving',
                         repeat: -1,
                         ignoreIfPlaying: false
                     });
@@ -286,13 +277,13 @@ export default class Game extends Phaser.Scene
                             {
                                 this.buzz.play( { volume: 2.25 } );
                                 wasp.play({
-                                    key: 'Stinging',
+                                    key: 'Attack',
                                     repeat: 4,
                                     ignoreIfPlaying: false
                                 });
                                 wasp.once('animationcomplete', () => {
                                     wasp.play({
-                                        key: 'Flying',
+                                        key: 'Moving',
                                         repeat: -1,
                                         ignoreIfPlaying: true
                                     });
@@ -313,15 +304,38 @@ export default class Game extends Phaser.Scene
                     },
                     loop: true
                 });
-            },
-            removeCallback: (wasp) => {
-                if(!this.waspGroup.contains(wasp))
-                {
-                    this.activeEnemies--;
-                    this.pestsLeft--;
-                }
-            }
+        }
+    }
+
+    enemiesRemove()
+    {
+        this.activeEnemies--;
+        this.pestsLeft--;
+    }
+
+    rocksControl(rock)
+    {
+        var x = randoms.randomBetweenXY(0, 800);
+        var y = randoms.randomBetweenXY(0, 800);
+
+        this.physics.moveTo(rock, x, y, 500);
+    }
+
+    aphidControl(aphid)
+    {
+        // Gets random x & y to move to.
+        var x = aphid.x + (randoms.randomBetweenXY(50, 75) * randoms.randomPosOrNeg());
+        var y = aphid.y + (randoms.randomBetweenXY(50, 75) * randoms.randomPosOrNeg());
+
+        // Smoothly transitions to the new location.
+        this.tweens.add({
+            targets: aphid,
+            x: x,
+            y: y,
+            duration: 600,
+            ease: 'Power1',
         });
+
     }
 
     waspControl(wasp)
@@ -495,8 +509,6 @@ export default class Game extends Phaser.Scene
                 this.waspGroup.clear(true, true);
             }
 
-            
-
             this.time.addEvent({
                 delay: 5000,
                 callback: () => {
@@ -519,7 +531,7 @@ export default class Game extends Phaser.Scene
             var y = this.boss.y;
 
             this.rocks.play();
-            this.rocksGroup.create(x, y);
+            this.rockGroup.create(x, y);
         }
     }
 
@@ -555,37 +567,6 @@ export default class Game extends Phaser.Scene
 
         this.statusText.setText('Pests: ' + this.pestsLeft);
         this.lifeText.setText('Lives: ' + this.lives);
-    }
-
-    checkHit()
-    {
-        // When player overlaps an enemy, check each enemy in the group
-        // to see if it's the one overlapping the player. If so,
-        // remove and destroy it.
-
-        // Aphids
-        // this.aphidGroup.children.each((aphid) => { 
-        //     this.physics.overlap(this.player, aphid, () => {
-        //         this.hitSoundsEnemy();
-        //         aphid.destroy();
-        //     });
-        // });
-        
-        // Wasps
-        this.waspGroup.children.each((wasp) => { 
-            this.physics.overlap(this.player, wasp, () => {
-                this.hitSoundsEnemy();
-                wasp.destroy();
-            });
-        });   
-
-        // Boss
-        if(this.bossSpawned)
-        {
-            this.physics.overlap(this.player, this.boss, () => {
-                this.bossHit(this.boss);
-            });
-        }
     }
 
     playerHit()
@@ -728,7 +709,7 @@ export default class Game extends Phaser.Scene
             this.time.addEvent({
                 delay: randoms.randomBetweenXY(5000, 15000),
                 callback: () => {
-                    this.rocksGroup.destroy();
+                    this.rockGroup.destroy();
                     this.rocksInit();
                     this.rocksAttack();
                 },
