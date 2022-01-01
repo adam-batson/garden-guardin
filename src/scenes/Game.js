@@ -66,7 +66,6 @@ export default class Game extends Phaser.Scene
         this.groupsInit();
         this.playerInit();
         this.statusInit();
-        this.bossInit();
 
         // Fades in to allow player to begin
         this.cameras.main.fadeIn(500, 0, 0, 0);        
@@ -113,7 +112,8 @@ export default class Game extends Phaser.Scene
         // Allows clicking to change the animation
         // Animation resets when not clicking
         this.input.on('pointerdown', () => { 
-            this.playerAttack();
+            this.player.play('Spade-down', true);
+            this.swingSound.play();
         });
         this.input.on('pointerup', () => { 
             this.player.play('Resting', false);
@@ -127,19 +127,13 @@ export default class Game extends Phaser.Scene
         this.player.y = this.input.activePointer.worldY;
     }
 
-    playerAttack()
-    {
-        this.player.play('Spade-down', true);
-        this.swingSound.play();
-        this.checkHit();
-    }
-
     // Groups init and control
     groupsInit()
     {
         this.aphidsInit();
         this.waspsInit();
         this.rocksInit();
+        this.bossInit();
     }
    
     // Rocks init and control
@@ -216,18 +210,13 @@ export default class Game extends Phaser.Scene
                     },
                     loop: true
                 });}
-
+                
                 // Physics
                 this.physics.add.existing(aphid);
                 aphid.body.setCircle(28, 0, 0);
                 aphid.body.setCollideWorldBounds(true, 1, 1);
                 
-                this.physics.overlap(aphid, this.player, () => {
-                    this.input.once('pointerdown', () => {     
-                        this.hitSoundsEnemy();
-                        aphid.destroy();
-                    });
-                });
+                this.deathHandler(enemy);
             },
             removeCallback: (aphid) => {
                 if(!this.aphidGroup.contains(aphid))
@@ -312,6 +301,8 @@ export default class Game extends Phaser.Scene
                             }
                         }
                     });
+
+                    this.deathHandler(wasp);
                 });
 
                 // Starts movement
@@ -410,6 +401,10 @@ export default class Game extends Phaser.Scene
                     });
                 });
 
+                this.input.once('pointerdown', () => {     
+                    this.bossHit();
+                });
+
                 // Starts movement and attacks
                 this.time.addEvent({
                     delay: 1000,
@@ -445,6 +440,16 @@ export default class Game extends Phaser.Scene
             y: y,
             duration: 750,
             ease: 'Power1',
+        });
+    }
+
+    deathHandler(enemy)
+    {
+        this.physics.overlap(enemy, this.player, () => {
+            this.input.once('pointerdown', () => {     
+                this.hitSoundsEnemy();
+                enemy.destroy();
+            });
         });
     }
 
