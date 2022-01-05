@@ -10,9 +10,9 @@
 
 This project fulfills a life-long goal of mine to create a video game. I discussed ideas with my mentor and we agreed that a finished game with clean code will demonstrate how far I've come these last six months.
 
-_Garden Guardin'_ primarily uses Phaser 3, a JavaScript library that uses node.js for making HTML5 games. I used Parcel for its dev server functionality, Aseprite for spriting, and hosted the game on Itch.io.
+_Garden Guardin'_ primarily uses Phaser 3, a JavaScript framework that uses node.js for making HTML5 games. I used Parcel for its dev server functionality, Aseprite for spriting, and hosted the game on Itch.io.
 
-Currently, the game has one level, four enemies, and a boss. In the future, I want to create more levels with a wider variety of enemies and new bosses. I also want to implement environmental effects or obstacles.
+Currently, the game has one level, two enemies, and a boss with two attacks. In the future, I want to create more levels with a wider variety of enemies and new bosses. I also want to implement environmental effects or obstacles in a way that makes sense.
 
 ### **How to Play**
 
