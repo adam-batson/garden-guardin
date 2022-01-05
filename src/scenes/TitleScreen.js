@@ -13,14 +13,18 @@ export default class TitleScreen extends Phaser.Scene
                 .setOrigin(0.5, 0.5)
                 .setFontFamily('game-font')
                 .setFontSize(40);
-            this.add.text(400, 400, 'Press SPACE to start')
+            this.add.text(400, 400, 'Click or tap to start')
+                .setOrigin(0.5, 0.5)
+                .setFontFamily('game-font')
+                .setFontSize(32);
+            this.add.text(400, 450, 'to start game')
                 .setOrigin(0.5, 0.5)
                 .setFontFamily('game-font')
                 .setFontSize(32);
         });
 
         // Pressing start will begin the fade out.
-        this.input.keyboard.once('keydown-SPACE', () => {
+        this.input.keyboard.once('pointerdown', () => {
             this.cameras.main.fadeOut(500, 0, 0, 0);
         });
 

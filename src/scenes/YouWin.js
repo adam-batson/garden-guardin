@@ -9,7 +9,7 @@ export default class YouWin extends Phaser.Scene
                 .setOrigin(0.5, 0.5)
                 .setFontFamily('game-font')
                 .setFontSize(40);
-            this.add.text(400, 400, 'Press SPACE')
+            this.add.text(400, 400, 'Click or tap')
                 .setOrigin(0.5, 0.5)
                 .setFontFamily('game-font')
                 .setFontSize(32);
@@ -20,7 +20,7 @@ export default class YouWin extends Phaser.Scene
         });
 
          // Pressing start will begin the fade out.
-         this.input.keyboard.once('keydown-SPACE', () => {
+         this.input.keyboard.once('pointerdown', () => {
             this.cameras.main.fadeOut(500, 0, 0, 0);
         });
 
