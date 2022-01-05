@@ -10,7 +10,7 @@
 
 This project fulfills a life-long goal of mine to create a video game. I discussed ideas with my mentor and we agreed that a finished game with clean code will demonstrate how far I've come these last six months.
 
-_Garden Guardin'_ primarily uses Phaser 3, a JavaScript framework that uses node.js for making HTML5 games. I used Parcel for its dev server functionality, Aseprite for spriting, and hosted the game on Itch.io.
+_Garden Guardin'_ primarily uses Phaser 3, a JavaScript framework for making HTML5 games. I used Parcel for its dev server functionality, Aseprite for spriting, and hosted the game on Itch.io.
 
 Currently, the game has one level, two enemies, and a boss with two attacks. In the future, I want to create more levels with a wider variety of enemies and new bosses. I also want to implement environmental effects or obstacles in a way that makes sense.
 
@@ -23,6 +23,8 @@ You start with 5 lives but can have up to 10. You will gain 1 life every 30 seco
 Tiny aphids are quick but harmless, while the wasps will sting if you get close. Click to hit them first!
 
 When you whack 100 pests, the boss will appear! You can defeat it in 10 hits, but it can swipe at you and scatter rocky dirt around to hurt you.
+
+**Controls**: On computer, click to hit pests, move the mouse to avoid attacks. On mobile, tap enemies and drag to move your spade out of their way.
 
 # **Installation**
 
