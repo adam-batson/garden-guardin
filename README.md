@@ -8,27 +8,27 @@
 
 ## **Description**
 
-&nbsp;&nbsp;&nbsp;&nbsp;This project fulfills a life-long goal of mine to create a video game. I discussed ideas with my mentor and we agreed that a finished game with clean code will demonstrate how far I've come these last six months.
+This project fulfills a life-long goal of mine to create a video game. I discussed ideas with my mentor and we agreed that a finished game with clean code will demonstrate how far I've come these last six months.
 
-&nbsp;&nbsp;&nbsp;&nbsp;_Garden Guardin'_ primarily uses Phaser 3, a JavaScript library that uses node.js for making HTML5 games. I used Parcel for its dev server functionality, Aseprite for spriting, and hosted the game on Itch.io.
+_Garden Guardin'_ primarily uses Phaser 3, a JavaScript library that uses node.js for making HTML5 games. I used Parcel for its dev server functionality, Aseprite for spriting, and hosted the game on Itch.io.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Currently, the game has one level, four enemies, and a boss. In the future, I want to create more levels with a wider variety of enemies and new bosses. I also want to implement environmental effects or obstacles.
+Currently, the game has one level, four enemies, and a boss. In the future, I want to create more levels with a wider variety of enemies and new bosses. I also want to implement environmental effects or obstacles.
 
 ### **How to Play**
 
-&nbsp;&nbsp;&nbsp;&nbsp;In _Garden Guardin'_, you are a gardener trying to drive off pests in the garden. This game is very heavily inspired by Gnat Attack from Mario Paint.
+In _Garden Guardin'_, you are a gardener trying to drive off pests in the garden. This game is very heavily inspired by Gnat Attack from Mario Paint.
 
-&nbsp;&nbsp;&nbsp;&nbsp;You start with 5 lives but can have up to 10. You will gain 1 life every 30 seconds up to the max.
+You start with 5 lives but can have up to 10. You will gain 1 life every 30 seconds up to the max.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Tiny aphids are quick but harmless, while the wasps will sting if you get close. Click to hit them first!
+Tiny aphids are quick but harmless, while the wasps will sting if you get close. Click to hit them first!
 
-&nbsp;&nbsp;&nbsp;&nbsp;When you whack 100 pests, the boss will appear! You can defeat it in 10 hits, but it can swipe at you and scatter rocky dirt around to hurt you.
+When you whack 100 pests, the boss will appear! You can defeat it in 10 hits, but it can swipe at you and scatter rocky dirt around to hurt you.
 
 # **Installation**
 
-&nbsp;&nbsp;&nbsp;&nbsp;If you want to play this game and you don't need the code, **I recommend playing the game [here](https://adzebat.itch.io/garden-guardin)**.<br>
+If you want to play this game and you don't need the code, **I recommend playing the game [here](https://adzebat.itch.io/garden-guardin)**.<br>
 
-&nbsp;&nbsp;&nbsp;&nbsp;To install and run this game, you'll need node.js and npm installed. After that, clone the repo, then run npm install in your terminal. Then to run the game, run npm start in the terminal and go to localhost:8000 on your browser.
+To install and run this game, you'll need node.js and npm installed. After that, clone the repo, then run npm install in your terminal. Then to run the game, run npm start in the terminal and go to localhost:8000 on your browser.
 
 # **License**
 
