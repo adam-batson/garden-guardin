@@ -4,8 +4,7 @@ import FloatingNumbersPlugin from "../utils/floating-text/FloatingNumbersPlugin"
 
 export default class Game extends Phaser.Scene
 {
-    init()
-    {
+    init(){
         // Initializing...
         // Game control variables
         this.pestsLeft = 100;
@@ -26,8 +25,7 @@ export default class Game extends Phaser.Scene
         this.flashed = false;
     }
 
-    preload()
-    {
+    preload(){
         // The player sprite will follow the mouse cursor.
         // This removes the arrow from the cursor.
         this.sys.canvas.style.cursor = 'none';
@@ -35,8 +33,7 @@ export default class Game extends Phaser.Scene
         this.load.scenePlugin('floatingNumbersPlugin', FloatingNumbersPlugin, 'floatingNumbersPlugin', 'floatingNumbers');
     }
 
-    create()
-    {
+    create(){
         // Add boundaries to the world
         this.physics.world.setBounds(0, 0, 800, 800);
 
@@ -81,23 +78,17 @@ export default class Game extends Phaser.Scene
         // this.checkPlayerHitTimer();
     }
 
-    update()
-    {
+    update(){
         this.playerControl();
         this.updateStatus();
     }
 
     //########################################################
-    //#------------------------------------------------------#
-    //#------------------------------------------------------#
     //#----------------- Utility methods  -------------------#
-    //#------------------------------------------------------#
-    //#------------------------------------------------------#
     //########################################################
     
     // Player init and control
-    playerInit()
-    {
+    playerInit(){
         this.player = this.add.sprite(400, 400, 'player')
             .setOrigin(0.5, 0.5)
             .setDepth(3);
@@ -120,31 +111,27 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    playerControl()
-    {
+    playerControl(){
         // Moves player spade wherever the mouse moves      
         this.player.x = this.input.activePointer.worldX;
         this.player.y = this.input.activePointer.worldY;
     }
 
-    playerAttack()
-    {
+    playerAttack(){
         this.player.play('Spade-down', true);
         this.swingSound.play();
         this.checkHit();
     }
 
     // Groups init and control
-    groupsInit()
-    {
+    groupsInit(){
         this.aphidsInit();
         this.waspsInit();
         this.rocksInit();
     }
    
     // Rocks init and control
-    rocksInit()
-    {
+    rocksInit(){
         // Initialize rocks group
         this.rocksGroup = this.add.group({
             defaultKey: 'rock',
@@ -175,8 +162,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    rocksControl(rock)
-    {
+    rocksControl(rock){
         var x = randoms.randomBetweenXY(0, 800);
         var y = randoms.randomBetweenXY(0, 800);
 
@@ -184,8 +170,7 @@ export default class Game extends Phaser.Scene
     }
 
     // Aphids init and control
-    aphidsInit()
-    {
+    aphidsInit(){
         // Initialize aphid group
         this.aphidGroup = this.add.group({
             defaultKey: 'aphid',
@@ -223,8 +208,7 @@ export default class Game extends Phaser.Scene
                 aphid.body.setCollideWorldBounds(true, 1, 1);
             },
             removeCallback: (aphid) => {
-                if(!this.aphidGroup.contains(aphid))
-                {
+                if(!this.aphidGroup.contains(aphid)){
                     this.activeEnemies--;
                     this.pestsLeft--;
                 }
@@ -232,8 +216,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    aphidControl(aphid)
-    {
+    aphidControl(aphid){
         // Gets random x & y to move to.
         var x = aphid.x + (randoms.randomBetweenXY(50, 75) * randoms.randomPosOrNeg());
         var y = aphid.y + (randoms.randomBetweenXY(50, 75) * randoms.randomPosOrNeg());
@@ -249,8 +232,7 @@ export default class Game extends Phaser.Scene
 
     }
 
-    waspsInit()
-    {
+    waspsInit(){
         // Initialize wasp group
         this.waspGroup = this.add.group({
             defaultKey: 'wasp',
@@ -284,10 +266,8 @@ export default class Game extends Phaser.Scene
                         // If distance from player to wasp is under 100 px, the player gets hit
                         var diffX = Math.abs(xWhenOverlap - this.player.x);
                         var diffY = Math.abs(yWhenOverlap - this.player.y);
-                        if(diffX <= 100 && diffY <= 100 && this.playerWasHit === false)
-                        {
-                            if(this.waspGroup.contains(wasp))
-                            {
+                        if(diffX <= 100 && diffY <= 100 && this.playerWasHit === false){
+                            if(this.waspGroup.contains(wasp)){
                                 this.buzz.play( { volume: 2.25 } );
                                 wasp.play({
                                     key: 'Stinging',
@@ -317,8 +297,7 @@ export default class Game extends Phaser.Scene
                 });
             },
             removeCallback: (wasp) => {
-                if(!this.waspGroup.contains(wasp))
-                {
+                if(!this.waspGroup.contains(wasp)){
                     this.activeEnemies--;
                     this.pestsLeft--;
                 }
@@ -326,8 +305,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    waspControl(wasp)
-    {
+    waspControl(wasp){
         // Gets random x & y to move to.
         do {
             var x = wasp.x + (randoms.randomBetweenXY(75, 150) * randoms.randomPosOrNeg());
@@ -346,8 +324,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    bossInit()
-    {
+    bossInit(){
         // Create the boss
         this.bossGroup = this.add.group({
             defaultKey: 'boss',
@@ -383,8 +360,7 @@ export default class Game extends Phaser.Scene
                         // If distance from player to boss is under 200px, the player gets hit
                         var diffX = Math.abs(xWhenOverlap - this.player.x);
                         var diffY = Math.abs(yWhenOverlap - this.player.y);
-                        if(diffX <= 200 && diffY <= 200 && this.playerWasHit === false)
-                        {
+                        if(diffX <= 200 && diffY <= 200 && this.playerWasHit === false){
                             this.bossSwing.play( { volume: 0.8 } );
                             this.boss.play({
                                 key: 'Attack',
@@ -420,8 +396,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    bossControl(boss)
-    {
+    bossControl(boss){
         console.log('Calling boss control')
         // Gets random x & y to move to.
         do {
@@ -441,17 +416,13 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    spawnEnemies()
-    {
-        if(this.activeEnemies < 15 && this.pestsLeft > 0)
-        {                  
+    spawnEnemies(){
+        if(this.activeEnemies < 15 && this.pestsLeft > 0){                  
             this.time.addEvent({
                 delay: 1000,
                 callback: () => {
-                    if(this.aphidGroup && !this.flashed)
-                    {
-                        if(!this.aphidGroup.isFull())
-                        {
+                    if(this.aphidGroup && !this.flashed){
+                        if(!this.aphidGroup.isFull()){
                             this.aphidGroup.create();
                         }
                     }
@@ -461,21 +432,16 @@ export default class Game extends Phaser.Scene
             this.time.addEvent({
                 delay: 1000,
                 callback: () => {
-                    if(this.waspGroup && !this.flashed)
-                    {
-                        if(!this.waspGroup.isFull() && this.pestsLeft <= 80)
-                        {
+                    if(this.waspGroup && !this.flashed){
+                        if(!this.waspGroup.isFull() && this.pestsLeft <= 80){
                                 this.waspGroup.create();
                         }
                     }
                 }
             });
-        }
-        else if(this.pestsLeft <= 0 && !this.bossSpawned)
-        {
+        } else if(this.pestsLeft <= 0 && !this.bossSpawned){
             // Clear out any leftover bugs
-            if(!this.flashed)
-            {
+            if(!this.flashed){
                 this.flash.flash(1000);
                 this.flashed = true;
 
@@ -488,8 +454,7 @@ export default class Game extends Phaser.Scene
             this.time.addEvent({
                 delay: 5000,
                 callback: () => {
-                    if(!this.bossGroup.isFull())
-                    {
+                    if(!this.bossGroup.isFull()){
                         this.bossGroup.create();
                         this.bgm.stop();
                         this.bossBgm.play( { volume: 0.75 } );
@@ -499,10 +464,8 @@ export default class Game extends Phaser.Scene
         }
     }
 
-    rocksAttack()
-    {
-        for(var i = 0; i < 6; i++)
-        {            
+    rocksAttack(){
+        for(var i = 0; i < 6; i++){            
             var x = this.boss.x;
             var y = this.boss.y;
 
@@ -512,8 +475,7 @@ export default class Game extends Phaser.Scene
     }
 
     // Status text init and control
-    statusInit()
-    {
+    statusInit(){
         // Add status text for pests and lives
         this.lifeText = this.add.text(275, 30, 'Lives: ' + this.lives)
         .setOrigin(0.5, 0.5)    
@@ -528,16 +490,13 @@ export default class Game extends Phaser.Scene
         .setDepth(20);
     }        
 
-    updateStatus()
-    {   
+    updateStatus(){   
         // Update status text for pests and lives
-        if(this.pestsLeft < 0)
-        {
+        if(this.pestsLeft < 0){
             this.pestsLeft = 0;
         }
         
-        if(this.lives < 0)
-        {
+        if(this.lives < 0){
             this.lives = 0;
         }
 
@@ -545,8 +504,7 @@ export default class Game extends Phaser.Scene
         this.lifeText.setText('Lives: ' + this.lives);
     }
 
-    checkHit()
-    {
+    checkHit(){
         // When player overlaps an enemy, check each enemy in the group
         // to see if it's the one overlapping the player. If so,
         // remove and destroy it.
@@ -568,20 +526,17 @@ export default class Game extends Phaser.Scene
         });   
 
         // Boss
-        if(this.bossSpawned)
-        {
+        if(this.bossSpawned){
             this.physics.overlap(this.player, this.boss, () => {
                 this.bossHit(this.boss);
             });
         }
     }
 
-    playerHit()
-    {
+    playerHit(){
         // If player is not flagged as just being hit, sound plays and damage is dealth. Then flashes and becomes invulnerable for 1.5 seconds
         // Flag is enabled after the hit and disabled after 1.5 seconds
-        if(this.playerWasHit === false)
-        {
+        if(this.playerWasHit === false){
             this.playerWasHit = true;            
 
             this.time.delayedCall(250, () => {
@@ -589,8 +544,7 @@ export default class Game extends Phaser.Scene
                 this.lives--;
                 
                 // Checks for player death and triggers game over sequence.
-                if(this.lives === 0)
-                {
+                if(this.lives === 0){
                     this.sound.stopAll();
 
                     this.lose.play();        
@@ -619,11 +573,9 @@ export default class Game extends Phaser.Scene
         }
     }
 
-    bossHit(boss)
-    {
+    bossHit(boss){
         // If boss is flagged as just being hit, flashes and becomes invulnerable for 2 seconds
-        if(this.bossWasHit === false)
-        {
+        if(this.bossWasHit === false){
             this.bossWasHit = true;
 
             this.time.delayedCall(250, () => {
@@ -650,8 +602,7 @@ export default class Game extends Phaser.Scene
             });
             
             // Checks for boss death and triggers win sequence.
-            if(this.bossLife === 0)
-            {
+            if(this.bossLife === 0){
                 this.sound.stopAll();
 
                 this.win.play();
@@ -673,8 +624,7 @@ export default class Game extends Phaser.Scene
         }
     }
 
-    hitSoundsEnemy()
-    {
+    hitSoundsEnemy(){
         this.hit.play({
             volume: 0.6
         });
@@ -684,8 +634,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    hitSoundsBoss()
-    {
+    hitSoundsBoss(){
         this.hit.play({
             volume: 0.6
         });
@@ -698,8 +647,7 @@ export default class Game extends Phaser.Scene
     // Timers
     // Allows repeating events such as spawns
 
-    spawnTimers()
-    {
+    spawnTimers(){
         this.time.addEvent({
             delay: 1000,
             callback: () => {
@@ -709,8 +657,7 @@ export default class Game extends Phaser.Scene
         });
     }
 
-    rocksTimer()
-    {
+    rocksTimer(){
         if(this.bossSpawned === true)
         {
             this.time.addEvent({
@@ -725,8 +672,7 @@ export default class Game extends Phaser.Scene
         }
     }
 
-    lifeGainTimer()
-    {
+    lifeGainTimer(){
         // Generates an extra life every minute
         this.time.addEvent({
             delay: 30000,
@@ -743,8 +689,7 @@ export default class Game extends Phaser.Scene
         });       
     }
 
-    lifeGainText()
-    {
+    lifeGainText(){
         this.floatingNumbers.createFloatingText({
             textOptions: {
                 fontFamily: 'game-font',
