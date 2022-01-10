@@ -1,8 +1,15 @@
+<div align="center">
+
 # **Garden Guardin'**
+
+![Badger boss firing its rock attack](/src/assets/images/GG-cover.png)
+
+</div>
 
 ### **Microsoft Leap Capstone Project**
 
-## **Developer:** Adam Batson [GitHub](https://github.com/tabatson) | [LinkedIn](https://linkedin.com/in/t-a-batson)
+## **Developer:** Adam Batson 
+## [GitHub](https://github.com/tabatson) | [LinkedIn](https://linkedin.com/in/t-a-batson)
 
 <br>
 
