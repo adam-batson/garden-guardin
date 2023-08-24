@@ -38,7 +38,7 @@ When you whack 100 pests, the boss will appear! You can defeat it in 10 hits, bu
 
 If you want to play this game and you don't need the code, **I recommend playing the game [here](https://adzebat.itch.io/garden-guardin)**.<br>
 
-To install and run this game, you'll need node.js and npm installed. After that, clone the repo, then run npm install in your terminal. Then to run the game, run npm start in the terminal and go to localhost:8000 on your browser.
+If you do download this code, you can run the game by opening index.html from the dist folder.
 
 # **License**
 
