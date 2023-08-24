@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/tabatson/garden-guarding#readme",
   "dependencies": {
-    "parcel": "^2.0.1",
-    "phaser": "^3.55.2"
+    "phaser": "^3.60.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.9.3"
   }
 }
